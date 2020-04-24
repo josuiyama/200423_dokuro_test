@@ -11,10 +11,9 @@ GameObject:
   - component: {fileID: 7198697660697665381}
   - component: {fileID: 6249122964142136014}
   - component: {fileID: 6274875629179474259}
-  - component: {fileID: 2302063039149580723}
+  - component: {fileID: -6021177846363219656}
   - component: {fileID: 1320575854806675835}
-  - component: {fileID: -1914838767423119953}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: GemPlayer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -73,7 +72,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: bd59bf2e866ed4529ae645637eb9c11d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -104,8 +103,8 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!61 &2302063039149580723
-BoxCollider2D:
+--- !u!58 &-6021177846363219656
+CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -117,19 +116,9 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.0027864575, y: 0.33057296}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0}
-    oldSize: {x: 0.75, y: 0.65}
-    newSize: {x: 1, y: 0.8666667}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
+  m_Offset: {x: 0.004734874, y: 0.336837}
   serializedVersion: 2
-  m_Size: {x: 0.49178582, y: 0.5162487}
-  m_EdgeRadius: 0
+  m_Radius: 0.27320176
 --- !u!50 &1320575854806675835
 Rigidbody2D:
   serializedVersion: 4
@@ -151,16 +140,3 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!114 &-1914838767423119953
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7210192474240584186}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aac4f861ea0a9b649bc6b54899322252, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 0

@@ -17,6 +17,9 @@ public class PlayerManager : MonoBehaviour
     float speed;
     bool isDead = false;
 
+    private float hAxis;
+    private bool control;
+
     Animator animator;
 
     //SE
@@ -42,20 +45,23 @@ public class PlayerManager : MonoBehaviour
             return;
         }
 
-        float x = Input.GetAxis("Horizontal"); //方向キーの取得
-        animator.SetFloat("speed", Mathf.Abs(x));
+        if (control)
+        {
+            hAxis = Input.GetAxis("Horizontal"); //方向キーの取得
+        }
+        animator.SetFloat("speed", Mathf.Abs(hAxis));
 
-        if (x == 0)
+        if (hAxis == 0)
         {
             //止まっている
             direction = DIRECTION_TYPE.STOP;
         }
-        else if (x > 0)
+        else if (hAxis > 0)
         {
             //右へ
             direction = DIRECTION_TYPE.RIGHT;
         }
-        else if (x < 0)
+        else if (hAxis < 0)
         {
             //左へ
             direction = DIRECTION_TYPE.LEFT;
@@ -163,12 +169,18 @@ public class PlayerManager : MonoBehaviour
     void PlayerDeath()
     {
         isDead = true;
-                rigidbody2D.velocity = new Vector2(0, 0);
+        rigidbody2D.velocity = new Vector2(0, 0);
         rigidbody2D.AddForce(Vector2.up * jumppower);
         animator.Play("PlayerDeathAnimation");
         gameManager.GameOver();
         BoxCollider2D boxCollider2D = GetComponent<BoxCollider2D>();
         Destroy(boxCollider2D);
         gameManager.GameOver();
+    }
+
+    public void ChangeControl(bool controlFlag)
+    {
+        hAxis = 0;
+        control = controlFlag;
     }
 }
