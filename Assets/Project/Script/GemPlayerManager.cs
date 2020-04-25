@@ -8,6 +8,8 @@ public class GemPlayerManager : MonoBehaviour
     float h;
     float v;
 
+    bool CanBite;
+
     // Use this for initialization
     void Start()
     {
@@ -17,6 +19,12 @@ public class GemPlayerManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Debug.Log(CanBite);
+
+        if (Input.GetKeyDown("q") && CanBite)
+        {
+            Debug.Log("ok");
+        }
 
         // 矢印キーの入力情報を取得
         if (control)
@@ -36,5 +44,25 @@ public class GemPlayerManager : MonoBehaviour
         h = 0;
         v = 0;
         control = controlFlag;
+    }
+
+    public void OnTriggerEnter2D(Collider2D collision)
+    {
+        string layerName = LayerMask.LayerToName(collision.gameObject.layer);
+
+        if (layerName == "Bitten")
+        {
+            CanBite = true;
+        }
+    }
+
+    public void OnTriggerExit2D(Collider2D collision)
+    {
+        string layerName = LayerMask.LayerToName(collision.gameObject.layer);
+
+        if (layerName == "Bitten")
+        {
+            CanBite = false;
+        }
     }
 }
