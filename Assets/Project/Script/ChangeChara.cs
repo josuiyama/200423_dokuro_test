@@ -7,7 +7,6 @@ public class ChangeChara : MonoBehaviour
 
     //　現在どのキャラクターを操作しているか
     private int nowChara;
-
     private int nextChara;
 
     //　操作可能なゲームキャラクター
@@ -27,18 +26,18 @@ public class ChangeChara : MonoBehaviour
 
     void Update()
     {
-        //　Qキーが押されたら操作キャラクターを次のキャラクターに変更する
-        if (Input.GetKeyDown("q"))
+        //　Shiftキーが押されたら操作キャラクターを次のキャラクターに変更する
+        if (Input.GetKeyDown("left shift"))
         {
-            ChangeCharacter(nowChara);
+            nowChara = ChangeCharacter(nowChara);
         }
     }
 
     //　操作キャラクター変更メソッド
-    void ChangeCharacter(int tempNowChara)
+    int ChangeCharacter(int nowChara)
     {
         //　次のキャラクターの番号を設定
-        switch (tempNowChara)
+        switch (nowChara)
         {
             case 0:
                 nextChara = 1;
@@ -70,7 +69,8 @@ public class ChangeChara : MonoBehaviour
         ////　次のキャラクターを動かせるようにする
         //charaList[nextChara].GetComponent<PlayerManager>().ChangeControl(true);
         ////　現在のキャラクター番号を保持する
-        nowChara = nextChara;
+        //nowChara = nextChara;
+        return nextChara;
     }
 
 }

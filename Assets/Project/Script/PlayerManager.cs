@@ -180,6 +180,7 @@ public class PlayerManager : MonoBehaviour
 
     public void ChangeControl(bool controlFlag)
     {
+        //切り替えした後に動きを止める
         hAxis = 0;
         control = controlFlag;
     }
