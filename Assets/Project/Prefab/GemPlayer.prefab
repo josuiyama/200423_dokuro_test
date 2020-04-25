@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 6274875629179474259}
   - component: {fileID: -6021177846363219656}
   - component: {fileID: 1320575854806675835}
+  - component: {fileID: 4744247433832814521}
   m_Layer: 10
   m_Name: GemPlayer
   m_TagString: Untagged
@@ -140,3 +141,16 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!114 &4744247433832814521
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7210192474240584186}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aac4f861ea0a9b649bc6b54899322252, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 5
