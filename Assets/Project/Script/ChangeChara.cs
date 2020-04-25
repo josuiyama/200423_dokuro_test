@@ -43,7 +43,7 @@ public class ChangeChara : MonoBehaviour
                 nextChara = 1;
                 //　現在操作しているキャラクターを動かなくする
                 player.GetComponent<PlayerManager>().ChangeControl(false);
-                player.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezePositionX;
+                player.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
                 //　次のキャラクターを動かせるようにする
                 gem.GetComponent<GemPlayerManager>().ChangeControl(true);
                 break;
