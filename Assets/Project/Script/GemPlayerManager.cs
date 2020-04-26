@@ -52,8 +52,6 @@ public class GemPlayerManager : MonoBehaviour
             {
                 ReleaseBite();
             }
-
-
         }
 
         // 矢印キーの入力情報を取得
@@ -111,6 +109,14 @@ public class GemPlayerManager : MonoBehaviour
         //噛み付いた部分とターゲットレイヤーのオブジェクトを起点にヒンジジョイントを追加するとか……
 
         rigidbody2D.constraints = RigidbodyConstraints2D.FreezeAll;
+        if (!sr.flipX)
+        {
+
+        }
+        else if (sr.flipX)
+        {
+
+        }
         IsBite = true;
     }
 
