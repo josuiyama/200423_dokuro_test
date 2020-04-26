@@ -6,7 +6,7 @@ public class ChangeChara : MonoBehaviour
 {
 
     //　現在どのキャラクターを操作しているか
-    private int nowChara;
+    public int nowChara;
     private int nextChara;
 
     //　操作可能なゲームキャラクター

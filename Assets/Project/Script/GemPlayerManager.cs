@@ -37,20 +37,26 @@ public class GemPlayerManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!IsBite)
+        //ドクロ操作のときじゃないと噛みつき＆噛みつき解除できないようにする
+        if (changeChara.nowChara == 1)
         {
-            if (Input.GetKeyDown("space") && CanBite)
+            //IsBiteのときスペースで噛みつける
+            if (!IsBite)
             {
-                DoBite();
-                //噛み付いたときにミサ＝1にする
-                changeChara.ChangeCharacter(1);
+                if (Input.GetKeyDown("space") && CanBite)
+                {
+                    DoBite();
+                    //噛み付いたときにミサ＝1にする
+                    //changeChara.ChangeCharacter(1);
+                }
             }
-        }
-        else
-        {
-            if (Input.GetKeyDown("space"))
+            //!IsBiteのときスペースで噛みつき離す
+            else
             {
-                ReleaseBite();
+                if (Input.GetKeyDown("space"))
+                {
+                    ReleaseBite();
+                }
             }
         }
         //噛み付いてる時に方向を変えないようにする
