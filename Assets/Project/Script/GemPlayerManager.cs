@@ -3,6 +3,9 @@ using System.Collections;
 
 public class GemPlayerManager : MonoBehaviour
 {
+    [SerializeField]
+    private ChangeChara changeChara;
+
     public enum DIRECTION_TYPE
     {
         STOP,
@@ -39,6 +42,8 @@ public class GemPlayerManager : MonoBehaviour
             if (Input.GetKeyDown("space") && CanBite)
             {
                 DoBite();
+                //噛み付いたときにミサ＝1にする
+                changeChara.ChangeCharacter(1);
             }
         }
         else
@@ -47,6 +52,7 @@ public class GemPlayerManager : MonoBehaviour
             {
                 ReleaseBite();
             }
+
 
         }
 
@@ -97,9 +103,9 @@ public class GemPlayerManager : MonoBehaviour
         }
     }
 
+    //噛みつきをする
     private void DoBite()
     {
-        //spaceで噛みつき場所に固定する
         //動く噛みつき場所とかぶらさがり場所に対して固定してたらまずいのでは？？
         //どうやって離れさせる？？？
         //噛み付いた部分とターゲットレイヤーのオブジェクトを起点にヒンジジョイントを追加するとか……
@@ -108,6 +114,7 @@ public class GemPlayerManager : MonoBehaviour
         IsBite = true;
     }
 
+    //噛みつき解除
     private void ReleaseBite()
     {
         rigidbody2D.constraints = RigidbodyConstraints2D.None;

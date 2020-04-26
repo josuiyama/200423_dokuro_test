@@ -26,6 +26,8 @@ public class ChangeChara : MonoBehaviour
 
     void Update()
     {
+        Debug.Log(nowChara);
+
         //　Shiftキーが押されたら操作キャラクターを次のキャラクターに変更する
         if (Input.GetKeyDown("left shift"))
         {
@@ -34,7 +36,7 @@ public class ChangeChara : MonoBehaviour
     }
 
     //　操作キャラクター変更メソッド
-    int ChangeCharacter(int nowChara)
+    public int ChangeCharacter(int nowChara)
     {
         //　次のキャラクターの番号を設定
         switch (nowChara)
@@ -56,7 +58,7 @@ public class ChangeChara : MonoBehaviour
                 player.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeRotation;
                 //　現在操作しているキャラクターを動かなくする
                 gem.GetComponent<GemPlayerManager>().ChangeControl(false);
-                gem.GetComponent<Rigidbody2D>().gravityScale = 20;
+                gem.GetComponent<Rigidbody2D>().gravityScale = 10;
                 break;
             default:
                 Debug.Log("バグった");

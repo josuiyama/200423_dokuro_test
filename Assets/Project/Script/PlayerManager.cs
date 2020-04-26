@@ -14,6 +14,9 @@ public class PlayerManager : MonoBehaviour
 
     DIRECTION_TYPE direction = DIRECTION_TYPE.STOP;
 
+
+    // スプライトレンダラーコンポーネントを入れる
+    SpriteRenderer sr;
     Rigidbody2D rigidbody2D;
 
     public float speed = 100.0F;
@@ -25,6 +28,8 @@ public class PlayerManager : MonoBehaviour
     private void Start()
     {
         rigidbody2D = GetComponent<Rigidbody2D>();
+        // スプライトレンダラーのコンポーネントを取得する
+        this.sr = GetComponent<SpriteRenderer>();
     }
 
     private void Update()
@@ -70,11 +75,11 @@ public class PlayerManager : MonoBehaviour
                 break;
             case DIRECTION_TYPE.RIGHT:
                 speed = 3;
-                transform.localScale = new Vector3(1, 1, 1);
+                sr.flipX = false;
                 break;
             case DIRECTION_TYPE.LEFT:
                 speed = -3;
-                transform.localScale = new Vector3(-1, 1, 1);
+                sr.flipX = true;
                 break;
         }
         rigidbody2D.velocity = new Vector2(speed, rigidbody2D.velocity.y);
