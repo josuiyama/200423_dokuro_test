@@ -3,27 +3,51 @@ using System.Collections;
 
 public class GemPlayerManager : MonoBehaviour
 {
+    public enum DIRECTION_TYPE
+    {
+        STOP,
+        RIGHT,
+        LEFT,
+    }
+    DIRECTION_TYPE direction = DIRECTION_TYPE.STOP;
+
+    // スプライトレンダラーコンポーネントを入れる
+    SpriteRenderer sr;
+    private Rigidbody2D rigidbody2D;
+
     public float speed = 100.0F;    // 移動早さ
-    private bool control;
     float h;
     float v;
 
+    private bool control;
     bool CanBite;
+    bool IsBite;
 
     // Use this for initialization
-    void Start()
+    private void Start()
     {
-
+        rigidbody2D = GetComponent<Rigidbody2D>();
+        // スプライトレンダラーのコンポーネントを取得する
+        this.sr = GetComponent<SpriteRenderer>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(CanBite);
-
-        if (Input.GetKeyDown("q") && CanBite)
+        if (!IsBite)
         {
-            Debug.Log("ok");
+            if (Input.GetKeyDown("space") && CanBite)
+            {
+                DoBite();
+            }
+        }
+        else
+        {
+            if (Input.GetKeyDown("space"))
+            {
+                ReleaseBite();
+            }
+
         }
 
         // 矢印キーの入力情報を取得
@@ -33,12 +57,64 @@ public class GemPlayerManager : MonoBehaviour
             v = Input.GetAxis("Vertical");
         }
 
+        if (h == 0)
+        {
+            //止まっている
+            direction = DIRECTION_TYPE.STOP;
+        }
+        else if (h > 0)
+        {
+            //右へ
+            direction = DIRECTION_TYPE.RIGHT;
+        }
+        else if (h < 0)
+        {
+            //左へ
+            direction = DIRECTION_TYPE.LEFT;
+        }
+
         // 移動する向きを作成する
-        Vector2 direction = new Vector2(h, v).normalized;
+        Vector2 directionVector = new Vector2(h, v).normalized;
 
         // 移動する向きとスピードを代入 
-        GetComponent<Rigidbody2D>().velocity = direction * speed;
+        rigidbody2D.velocity = directionVector * speed;
     }
+
+    private void FixedUpdate()
+    {
+        switch (direction)
+        {
+            case DIRECTION_TYPE.STOP:
+                break;
+            case DIRECTION_TYPE.RIGHT:
+                //transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
+                sr.flipX = false;
+                break;
+            case DIRECTION_TYPE.LEFT:
+                sr.flipX = true;
+                //transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x) * -1, transform.localScale.y, transform.localScale.z);
+                break;
+        }
+    }
+
+    private void DoBite()
+    {
+        //spaceで噛みつき場所に固定する
+        //動く噛みつき場所とかぶらさがり場所に対して固定してたらまずいのでは？？
+        //どうやって離れさせる？？？
+        //噛み付いた部分とターゲットレイヤーのオブジェクトを起点にヒンジジョイントを追加するとか……
+
+        rigidbody2D.constraints = RigidbodyConstraints2D.FreezeAll;
+        IsBite = true;
+    }
+
+    private void ReleaseBite()
+    {
+        rigidbody2D.constraints = RigidbodyConstraints2D.None;
+        rigidbody2D.constraints = RigidbodyConstraints2D.FreezeRotation;
+        IsBite = false;
+    }
+
     public void ChangeControl(bool controlFlag)
     {
         h = 0;
@@ -46,6 +122,7 @@ public class GemPlayerManager : MonoBehaviour
         control = controlFlag;
     }
 
+    //噛みつける場所判定
     public void OnTriggerEnter2D(Collider2D collision)
     {
         string layerName = LayerMask.LayerToName(collision.gameObject.layer);
