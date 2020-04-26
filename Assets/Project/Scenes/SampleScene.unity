@@ -147,10 +147,10 @@ DistanceJoint2D:
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
   m_AutoConfigureConnectedAnchor: 0
-  m_Anchor: {x: -0.31101954, y: 0.3856169}
+  m_Anchor: {x: 0, y: 0.4133333}
   m_ConnectedAnchor: {x: 0, y: 0}
   m_AutoConfigureDistance: 1
-  m_Distance: 0.12258191
+  m_Distance: 0.09468772
   m_MaxDistanceOnly: 1
 --- !u!233 &444456146
 HingeJoint2D:
@@ -166,8 +166,8 @@ HingeJoint2D:
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
   m_AutoConfigureConnectedAnchor: 1
-  m_Anchor: {x: -0.3110714, y: 0.38615608}
-  m_ConnectedAnchor: {x: 0.005881214, y: -0.12189887}
+  m_Anchor: {x: 0, y: 0.4133333}
+  m_ConnectedAnchor: {x: -0.0028135597, y: -0.09464592}
   m_UseMotor: 0
   m_Motor:
     m_MotorSpeed: 0
@@ -602,6 +602,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1902430966}
     m_Modifications:
+    - target: {fileID: -1504485190770459928, guid: 6e1d4474f9ad85740b7de0c7b95212cc,
+        type: 3}
+      propertyPath: m_Mass
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: -1504485190770459928, guid: 6e1d4474f9ad85740b7de0c7b95212cc,
+        type: 3}
+      propertyPath: m_GravityScale
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 767579526442997400, guid: 6e1d4474f9ad85740b7de0c7b95212cc,
         type: 3}
       propertyPath: m_Name
@@ -729,12 +739,17 @@ PrefabInstance:
     - target: {fileID: 1320575854806675835, guid: d92d6efb9be815d4980b2cb11310f4df,
         type: 3}
       propertyPath: m_GravityScale
-      value: 20
+      value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 4744247433832814521, guid: d92d6efb9be815d4980b2cb11310f4df,
+        type: 3}
+      propertyPath: changeChara
+      value: 
+      objectReference: {fileID: 1686088249}
     - target: {fileID: 7198697660697665381, guid: d92d6efb9be815d4980b2cb11310f4df,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2.273
+      value: 1.953
       objectReference: {fileID: 0}
     - target: {fileID: 7198697660697665381, guid: d92d6efb9be815d4980b2cb11310f4df,
         type: 3}
@@ -3391,7 +3406,7 @@ DistanceJoint2D:
   m_Anchor: {x: 0, y: 0}
   m_ConnectedAnchor: {x: 0, y: 0}
   m_AutoConfigureDistance: 1
-  m_Distance: 2.9908082
+  m_Distance: 2.9729545
   m_MaxDistanceOnly: 1
 --- !u!1001 &1811956817
 PrefabInstance:
