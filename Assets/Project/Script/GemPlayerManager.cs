@@ -53,35 +53,38 @@ public class GemPlayerManager : MonoBehaviour
                 ReleaseBite();
             }
         }
-
-        // 矢印キーの入力情報を取得
-        if (control)
+        //噛み付いてる時に方向を変えないようにする
+        if (!IsBite)
         {
-            h = Input.GetAxis("Horizontal");
-            v = Input.GetAxis("Vertical");
-        }
+            // 矢印キーの入力情報を取得
+            if (control)
+            {
+                h = Input.GetAxis("Horizontal");
+                v = Input.GetAxis("Vertical");
+            }
 
-        if (h == 0)
-        {
-            //止まっている
-            direction = DIRECTION_TYPE.STOP;
-        }
-        else if (h > 0)
-        {
-            //右へ
-            direction = DIRECTION_TYPE.RIGHT;
-        }
-        else if (h < 0)
-        {
-            //左へ
-            direction = DIRECTION_TYPE.LEFT;
-        }
+            if (h == 0)
+            {
+                //止まっている
+                direction = DIRECTION_TYPE.STOP;
+            }
+            else if (h > 0)
+            {
+                //右へ
+                direction = DIRECTION_TYPE.RIGHT;
+            }
+            else if (h < 0)
+            {
+                //左へ
+                direction = DIRECTION_TYPE.LEFT;
+            }
 
-        // 移動する向きを作成する
-        Vector2 directionVector = new Vector2(h, v).normalized;
+            // 移動する向きを作成する
+            Vector2 directionVector = new Vector2(h, v).normalized;
 
-        // 移動する向きとスピードを代入 
-        rigidbody2D.velocity = directionVector * speed;
+            // 移動する向きとスピードを代入 
+            rigidbody2D.velocity = directionVector * speed;
+        }
     }
 
     private void FixedUpdate()
@@ -109,14 +112,6 @@ public class GemPlayerManager : MonoBehaviour
         //噛み付いた部分とターゲットレイヤーのオブジェクトを起点にヒンジジョイントを追加するとか……
 
         rigidbody2D.constraints = RigidbodyConstraints2D.FreezeAll;
-        if (!sr.flipX)
-        {
-
-        }
-        else if (sr.flipX)
-        {
-
-        }
         IsBite = true;
     }
 
