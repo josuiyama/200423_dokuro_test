@@ -16,9 +16,9 @@ public class GemPlayerManager : MonoBehaviour
 
     // スプライトレンダラーコンポーネントを入れる
     SpriteRenderer sr;
-    private Rigidbody2D rigidbody2D;
+    private Rigidbody2D rb2D;
 
-    public float speed = 100.0F;    // 移動早さ
+    public float speed;    // 移動早さ
     float h;
     float v;
 
@@ -29,7 +29,7 @@ public class GemPlayerManager : MonoBehaviour
     // Use this for initialization
     private void Start()
     {
-        rigidbody2D = GetComponent<Rigidbody2D>();
+        rb2D = GetComponent<Rigidbody2D>();
         // スプライトレンダラーのコンポーネントを取得する
         this.sr = GetComponent<SpriteRenderer>();
     }
@@ -86,10 +86,7 @@ public class GemPlayerManager : MonoBehaviour
             }
 
             // 移動する向きを作成する
-            Vector2 directionVector = new Vector2(h, v).normalized;
-
-            // 移動する向きとスピードを代入 
-            rigidbody2D.velocity = directionVector * speed;
+            rb2D.velocity = new Vector2(h * speed, v * speed);
         }
     }
 
@@ -117,15 +114,15 @@ public class GemPlayerManager : MonoBehaviour
         //どうやって離れさせる？？？
         //噛み付いた部分とターゲットレイヤーのオブジェクトを起点にヒンジジョイントを追加するとか……
 
-        rigidbody2D.constraints = RigidbodyConstraints2D.FreezeAll;
+        rb2D.constraints = RigidbodyConstraints2D.FreezeAll;
         IsBite = true;
     }
 
     //噛みつき解除
     private void ReleaseBite()
     {
-        rigidbody2D.constraints = RigidbodyConstraints2D.None;
-        rigidbody2D.constraints = RigidbodyConstraints2D.FreezeRotation;
+        rb2D.constraints = RigidbodyConstraints2D.None;
+        rb2D.constraints = RigidbodyConstraints2D.FreezeRotation;
         IsBite = false;
     }
 
