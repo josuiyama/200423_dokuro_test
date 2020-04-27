@@ -4,7 +4,6 @@ public class PlayerManager : MonoBehaviour
 {
     [SerializeField] GameManager gameManager;
     [SerializeField] LayerMask blockLayer;
-    [SerializeField] LayerMask ladderLayer;
 
     public enum DIRECTION_TYPE
     {
@@ -28,12 +27,15 @@ public class PlayerManager : MonoBehaviour
     private bool control;
     private bool isDead = false;
     private bool canClimb;
+    public float distance;
+    public LayerMask ladderLayer;
 
     private void Start()
     {
         rb2D = GetComponent<Rigidbody2D>();
         // スプライトレンダラーのコンポーネントを取得する
         this.sr = GetComponent<SpriteRenderer>();
+        //通常ははしごに登れない
         canClimb = false;
     }
 
@@ -46,20 +48,20 @@ public class PlayerManager : MonoBehaviour
 
         if (control)
         {
-            hAxis = Input.GetAxis("Horizontal"); //方向キーの取得
-                                                 // 移動する向きを作成する
-            rb2D.velocity = new Vector2(hAxis * speed, vAxis * speed);
+            //横方向キーの取得
+            hAxis = Input.GetAxis("Horizontal");
+            //横スピードの取得
+            rb2D.velocity = new Vector2(hAxis * speed, rb2D.velocity.y);
+            HAxis();
 
-            if (canClimb)
-            {
-                vAxis = Input.GetAxis("Vertical"); //方向キーの取得
-            }
+            //縦方向キーの取得
+            vAxis = Input.GetAxis("Vertical");
+            //はしごを登るのと縦スピードの取得
+            CanClimb();
         }
-
-        HAxis();
     }
 
-    //方向動きの取得
+    //横動き方向の取得
     private void HAxis()
     {
         if (hAxis == 0)
@@ -79,13 +81,13 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
+    //横方向変更でイラスト反転
     private void FixedUpdate()
     {
         if (isDead)
         {
             return;
         }
-
         switch (direction)
         {
             case DIRECTION_TYPE.STOP:
@@ -134,22 +136,6 @@ public class PlayerManager : MonoBehaviour
         {
             collision.gameObject.GetComponent<ItemManeger>().GetItem();
         }
-
-        string layerName = LayerMask.LayerToName(collision.gameObject.layer);
-
-        if (layerName == "Ladder")
-        {
-            canClimb = true;
-        }
-    }
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        string layerName = LayerMask.LayerToName(collision.gameObject.layer);
-
-        if (layerName == "Ladder")
-        {
-            canClimb = false;
-        }
     }
 
     //死亡判定
@@ -174,9 +160,33 @@ public class PlayerManager : MonoBehaviour
     //はしごや鎖に登る
     private void CanClimb()
     {
-        if (canClimb)
+        //上に登れる条件を決定
+        //はしごがある（はしごレイヤーがある）
+        //Physics2D.Raycast(どこから　どの方向に　どれくらいの距離で　対象のレイヤー);
+        RaycastHit2D hitInfo = Physics2D.Raycast(transform.position, Vector2.up, 2, ladderLayer);
+
+        //接触したコライダーが0ではないとき
+        if (hitInfo.collider != null)
         {
+            //プレイヤーが上を押すとcanClimbがtrueになる=登れるようになる
+            if (vAxis > 0)
+            {
+                canClimb = true;
+            }
+
+            //登るときのスピード設定と重力設定
+            if (canClimb)
+            {
+                rb2D.velocity = new Vector2(rb2D.velocity.x, vAxis * speed);
+                rb2D.gravityScale = 0;
+            }
+        }
+        else
+        {
+            canClimb = false;
+            rb2D.gravityScale = 20;
 
         }
     }
+
 }
