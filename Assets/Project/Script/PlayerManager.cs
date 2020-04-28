@@ -157,7 +157,7 @@ public class PlayerManager : MonoBehaviour
         control = controlFlag;
     }
 
-    //はしごや鎖に登る
+    //はしごや鎖に登る判定
     private void CanClimb()
     {
         //Ladderレイヤーと接触した時登れる

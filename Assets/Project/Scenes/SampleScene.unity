@@ -610,12 +610,17 @@ PrefabInstance:
     - target: {fileID: -1504485190770459928, guid: 6e1d4474f9ad85740b7de0c7b95212cc,
         type: 3}
       propertyPath: m_GravityScale
-      value: 15
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 767579526442997400, guid: 6e1d4474f9ad85740b7de0c7b95212cc,
         type: 3}
       propertyPath: m_Name
       value: MisaPlayer
+      objectReference: {fileID: 0}
+    - target: {fileID: 767579526442997400, guid: 6e1d4474f9ad85740b7de0c7b95212cc,
+        type: 3}
+      propertyPath: m_TagString
+      value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 767579526442997406, guid: 6e1d4474f9ad85740b7de0c7b95212cc,
         type: 3}
@@ -695,7 +700,7 @@ PrefabInstance:
     - target: {fileID: 4133189437278592881, guid: 6e1d4474f9ad85740b7de0c7b95212cc,
         type: 3}
       propertyPath: ladderLayer.m_Bits
-      value: 2048
+      value: 4096
       objectReference: {fileID: 0}
     - target: {fileID: 6995637810965675120, guid: 6e1d4474f9ad85740b7de0c7b95212cc,
         type: 3}
@@ -862,6 +867,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7210192474240584186, guid: d92d6efb9be815d4980b2cb11310f4df,
+        type: 3}
+      propertyPath: m_Layer
+      value: 13
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d92d6efb9be815d4980b2cb11310f4df, type: 3}
@@ -3616,6 +3626,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: TempLadder
+      objectReference: {fileID: 0}
+    - target: {fileID: 1259505201833304785, guid: c23ebbc49a714044a8d45a4f99f91a0e,
+        type: 3}
+      propertyPath: m_Layer
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 1786329878237701805, guid: c23ebbc49a714044a8d45a4f99f91a0e,
         type: 3}
