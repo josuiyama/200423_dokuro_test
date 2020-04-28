@@ -160,12 +160,11 @@ public class PlayerManager : MonoBehaviour
     //はしごや鎖に登る
     private void CanClimb()
     {
-        //上に登れる条件を決定
-        //はしごがある（はしごレイヤーがある）
+        //Ladderレイヤーと接触した時登れる
         //Physics2D.Raycast(どこから　どの方向に　どれくらいの距離で　対象のレイヤー);
         RaycastHit2D hitInfo = Physics2D.Raycast(transform.position, Vector2.up, 2, ladderLayer);
 
-        //接触したコライダーが0ではないとき
+        //0個よりも多くのレイヤーに接触した時
         if (hitInfo.collider != null)
         {
             //プレイヤーが上を押すとcanClimbがtrueになる=登れるようになる
@@ -184,8 +183,7 @@ public class PlayerManager : MonoBehaviour
         else
         {
             canClimb = false;
-            rb2D.gravityScale = 20;
-
+            rb2D.gravityScale = 10;
         }
     }
 
