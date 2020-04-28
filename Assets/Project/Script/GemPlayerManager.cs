@@ -19,12 +19,12 @@ public class GemPlayerManager : MonoBehaviour
     private Rigidbody2D rb2D;
 
     public float speed;    // 移動早さ
-    float h;
-    float v;
+    private float h;
+    private float v;
 
     private bool control;
-    bool CanBite;
-    bool IsBite;
+    private bool CanBite;
+    public bool IsBite;
 
     // Use this for initialization
     private void Start()
@@ -35,7 +35,7 @@ public class GemPlayerManager : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         //ドクロ操作のときじゃないと噛みつき＆噛みつき解除できないようにする
         if (changeChara.nowChara == 1)

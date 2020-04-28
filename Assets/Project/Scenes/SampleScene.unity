@@ -176,6 +176,18 @@ HingeJoint2D:
   m_AngleLimits:
     m_LowerAngle: 0
     m_UpperAngle: 359
+--- !u!114 &444456147 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4744247433832814521, guid: d92d6efb9be815d4980b2cb11310f4df,
+    type: 3}
+  m_PrefabInstance: {fileID: 656579906}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 444456143}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aac4f861ea0a9b649bc6b54899322252, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &444456151 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7198697660697665381, guid: d92d6efb9be815d4980b2cb11310f4df,
@@ -702,6 +714,16 @@ PrefabInstance:
       propertyPath: ladderLayer.m_Bits
       value: 4096
       objectReference: {fileID: 0}
+    - target: {fileID: 4133189437278592881, guid: 6e1d4474f9ad85740b7de0c7b95212cc,
+        type: 3}
+      propertyPath: chainLayer.m_Bits
+      value: 2048
+      objectReference: {fileID: 0}
+    - target: {fileID: 4133189437278592881, guid: 6e1d4474f9ad85740b7de0c7b95212cc,
+        type: 3}
+      propertyPath: gemPlayerManager
+      value: 
+      objectReference: {fileID: 444456147}
     - target: {fileID: 6995637810965675120, guid: 6e1d4474f9ad85740b7de0c7b95212cc,
         type: 3}
       propertyPath: m_Offset.y

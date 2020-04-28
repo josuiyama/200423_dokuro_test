@@ -4,6 +4,8 @@ public class PlayerManager : MonoBehaviour
 {
     [SerializeField] GameManager gameManager;
     [SerializeField] LayerMask blockLayer;
+    [SerializeField]
+    private GemPlayerManager gemPlayerManager;
 
     public enum DIRECTION_TYPE
     {
@@ -29,6 +31,7 @@ public class PlayerManager : MonoBehaviour
     private bool canClimb;
     public float distance;
     public LayerMask ladderLayer;
+    public LayerMask chainLayer;
 
     private void Start()
     {
@@ -56,7 +59,7 @@ public class PlayerManager : MonoBehaviour
 
             //縦方向キーの取得
             vAxis = Input.GetAxis("Vertical");
-            //はしごを登るのと縦スピードの取得
+            //はしごや鎖を登るのと縦スピードの取得
             CanClimb();
         }
     }
@@ -139,7 +142,7 @@ public class PlayerManager : MonoBehaviour
     }
 
     //死亡判定
-    void PlayerDeath()
+    private void PlayerDeath()
     {
         isDead = true;
         rb2D.velocity = new Vector2(0, 0);
@@ -162,13 +165,17 @@ public class PlayerManager : MonoBehaviour
     {
         //Ladderレイヤーと接触した時登れる
         //Physics2D.Raycast(どこから　どの方向に　どれくらいの距離で　対象のレイヤー);
-        RaycastHit2D hitInfo = Physics2D.Raycast(transform.position, Vector2.up, 2, ladderLayer);
+        RaycastHit2D hitInfoLadder = Physics2D.Raycast(transform.position, Vector2.up, 2, ladderLayer);
+
+        //chainレイヤーと接触した時登れる
+        //Physics2D.Raycast(どこから　どの方向に　どれくらいの距離で　対象のレイヤー);
+        RaycastHit2D hitInfoChain = Physics2D.Raycast(transform.position, Vector2.up, 2, chainLayer);
 
         //0個よりも多くのレイヤーに接触した時
-        if (hitInfo.collider != null)
+        if (hitInfoLadder.collider != null)
         {
-            //プレイヤーが上を押すとcanClimbがtrueになる=登れるようになる
-            if (vAxis > 0)
+            //プレイヤーが上下キーを押す（=上下に値を入れる）とcanClimbがtrueになる=登れるようになる
+            if (vAxis != 0)
             {
                 canClimb = true;
             }
@@ -177,6 +184,24 @@ public class PlayerManager : MonoBehaviour
             if (canClimb)
             {
                 rb2D.velocity = new Vector2(rb2D.velocity.x, vAxis * speed);
+            }
+            rb2D.gravityScale = 0;
+        }
+        if (hitInfoChain.collider != null)
+        {
+            if (gemPlayerManager.IsBite)
+            {
+                //プレイヤーが上下キーを押す（=上下に値を入れる）とcanClimbがtrueになる=登れるようになる
+                if (vAxis != 0)
+                {
+                    canClimb = true;
+                }
+
+                //登るときのスピード設定と重力設定
+                if (canClimb)
+                {
+                    rb2D.velocity = new Vector2(rb2D.velocity.x,vAxis * speed);
+                }
                 rb2D.gravityScale = 0;
             }
         }
@@ -185,6 +210,7 @@ public class PlayerManager : MonoBehaviour
             canClimb = false;
             rb2D.gravityScale = 10;
         }
-    }
 
+        //一個目のときの判定が変に作用しているのでは？
+    }
 }
