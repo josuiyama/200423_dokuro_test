@@ -158,12 +158,13 @@ public class PlayerManager : MonoBehaviour
         //Ladderレイヤーと接触した時登れる
         //Physics2D.Raycast(どこから　どの方向に　どれくらいの距離で　対象のレイヤー);
         RaycastHit2D hitInfoLadder = Physics2D.Raycast(transform.position, Vector2.up, 2, ladderLayer);
-
         //chainレイヤーと接触した時登れる
         //Physics2D.Raycast(どこから　どの方向に　どれくらいの距離で　対象のレイヤー);
         RaycastHit2D hitInfoChain = Physics2D.Raycast(transform.position, Vector2.up, 2, chainLayer);
 
         Debug.DrawRay(transform.position, Vector2.up, Color.red, 2);
+        Debug.DrawRay(transform.position, Vector2.right, Color.green, 1);
+        Debug.DrawRay(transform.position, Vector2.left, Color.blue, 1);
 
         //0個よりも多くのレイヤーに接触した時
         if (hitInfoLadder.collider != null)
@@ -181,8 +182,10 @@ public class PlayerManager : MonoBehaviour
                 rb2D.gravityScale = 0;
             }
         }
+
         if (hitInfoChain.collider != null)
         {
+            //噛み付いてる最中に
             if (gemPlayerManager.IsBite)
             {
                 //プレイヤーが上下キーを押す（=上下に値を入れる）とcanClimbがtrueになる=登れるようになる
