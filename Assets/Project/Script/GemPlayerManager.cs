@@ -24,13 +24,12 @@ public class GemPlayerManager : MonoBehaviour
 
     private bool control;
     private bool CanBite;
-    private bool IsBite;
+    public bool IsBite;
 
     // Use this for initialization
     private void Start()
     {
         rb2D = GetComponent<Rigidbody2D>();
-        CanBite = false;
         // スプライトレンダラーのコンポーネントを取得する
         this.sr = GetComponent<SpriteRenderer>();
     }
@@ -38,22 +37,16 @@ public class GemPlayerManager : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        // 矢印キーの入力情報を取得
         if (control)
         {
+        // 矢印キーの入力情報を取得
             h = Input.GetAxis("Horizontal");
             v = Input.GetAxis("Vertical");
+            // 移動スピードの取得
+            H();
+            rb2D.velocity = new Vector2(h * speed, v * speed);
         }
-
-        // 移動スピードの取得
-        rb2D.velocity = new Vector2(h * speed, v * speed);
-
-        H();
-
         BiteAction();
-
-        Debug.Log(CanBite + " CanBite");
-        Debug.Log(IsBite + " IsBite");
     }
 
     //横動き方向の取得
@@ -135,7 +128,7 @@ public class GemPlayerManager : MonoBehaviour
         }
     }
 
-    //chande
+    //ChangeControlが有効になった時
     public void ChangeControl(bool controlFlag)
     {
         h = 0;
@@ -143,7 +136,7 @@ public class GemPlayerManager : MonoBehaviour
         control = controlFlag;
     }
 
-    //噛みつける場所判定
+    //Bittenレイヤーに接触している時は噛みつける（=CanBiteがトゥルーに）
     public void OnTriggerEnter2D(Collider2D collision)
     {
         string layerName = LayerMask.LayerToName(collision.gameObject.layer);
@@ -153,7 +146,7 @@ public class GemPlayerManager : MonoBehaviour
             CanBite = true;
         }
     }
-
+    //Bittenレイヤーに接触していない時は噛みつけない（=CanBiteがファルスに）
     public void OnTriggerExit2D(Collider2D collision)
     {
         string layerName = LayerMask.LayerToName(collision.gameObject.layer);

@@ -28,7 +28,7 @@ public class PlayerManager : MonoBehaviour
 
     private bool control;
     private bool isDead = false;
-    private bool canClimb;
+    private bool canClimb = false;
     public float distance;
     public LayerMask ladderLayer;
     public LayerMask chainLayer;
@@ -38,8 +38,6 @@ public class PlayerManager : MonoBehaviour
         rb2D = GetComponent<Rigidbody2D>();
         // スプライトレンダラーのコンポーネントを取得する
         this.sr = GetComponent<SpriteRenderer>();
-        //通常ははしごに登れない
-        canClimb = false;
     }
 
     private void Update()
@@ -51,17 +49,17 @@ public class PlayerManager : MonoBehaviour
 
         if (control)
         {
-            //横方向キーの取得
+            // 矢印キーの入力情報を取得
             hAxis = Input.GetAxis("Horizontal");
-            //横スピードの取得
-            rb2D.velocity = new Vector2(hAxis * speed, rb2D.velocity.y);
-            HAxis();
-
-            //縦方向キーの取得
             vAxis = Input.GetAxis("Vertical");
+            //横移動スピードの取得
+            rb2D.velocity = new Vector2(hAxis * speed, rb2D.velocity.y);
+
+            HAxis();
             //はしごや鎖を登るのと縦スピードの取得
             CanClimb();
         }
+            Debug.Log(canClimb + " canClimb");
     }
 
     //横動き方向の取得
@@ -146,6 +144,7 @@ public class PlayerManager : MonoBehaviour
     }
 
     //操作キャラ変更
+
     public void ChangeControl(bool controlFlag)
     {
         //切り替えした後に動きを止める
@@ -164,48 +163,46 @@ public class PlayerManager : MonoBehaviour
         //Physics2D.Raycast(どこから　どの方向に　どれくらいの距離で　対象のレイヤー);
         RaycastHit2D hitInfoChain = Physics2D.Raycast(transform.position, Vector2.up, 2, chainLayer);
 
+        Debug.DrawRay(transform.position, Vector2.up, Color.red, 2);
+
         //0個よりも多くのレイヤーに接触した時
-        //if (hitInfoLadder.collider != null)
-        //{
-        //    //    //プレイヤーが上下キーを押す（=上下に値を入れる）とcanClimbがtrueになる=登れるようになる
-        //    //    if (vAxis != 0)
-        //    //    {
-        //    //        canClimb = true;
-        //    //    }
+        if (hitInfoLadder.collider != null)
+        {
+            //プレイヤーが上下キーを押す（=上下に値を入れる）とcanClimbがtrueになる=登れるようになる
+            if (vAxis != 0)
+            {
+                canClimb = true;
+            }
 
-        //    //    //登るときのスピード設定と重力設定
-        //    //    if (canClimb)
-        //    //    {
-        //    //        rb2D.velocity = new Vector2(rb2D.velocity.x, vAxis * speed);
-        //    //        rb2D.gravityScale = 0;
-        //    //    }
-        //    //}
-        //    if (hitInfoChain.collider != null)
-        //    {
-        //        if (gemPlayerManager.IsBite)
-        //        {
-        //            //プレイヤーが上下キーを押す（=上下に値を入れる）とcanClimbがtrueになる=登れるようになる
-        //            if (vAxis != 0)
-        //            {
-        //                canClimb = true;
-        //            }
+            //登るときのスピード設定と重力設定
+            if (canClimb)
+            {
+                rb2D.velocity = new Vector2(rb2D.velocity.x, vAxis * speed);
+                rb2D.gravityScale = 0;
+            }
+        }
+        if (hitInfoChain.collider != null)
+        {
+            if (gemPlayerManager.IsBite)
+            {
+                //プレイヤーが上下キーを押す（=上下に値を入れる）とcanClimbがtrueになる=登れるようになる
+                if (vAxis != 0)
+                {
+                    canClimb = true;
+                }
 
-        //            //登るときのスピード設定と重力設定
-        //            if (canClimb)
-        //            {
-        //                rb2D.velocity = new Vector2(rb2D.velocity.x, vAxis * speed);
-        //                rb2D.gravityScale = 0;
-        //            }
-        //        }
-        //    }
-        //    else
-        //    {
-        //        canClimb = false;
-        //        rb2D.gravityScale = 10;
-        //    }
-
-        //    //一個目のときの判定が変に作用しているのでは？
-        //    //なぜかドクロがか見つけなくなっている。privateとかを付け足したせい？
-        //}
+                //登るときのスピード設定と重力設定
+                if (canClimb)
+                {
+                    rb2D.velocity = new Vector2(rb2D.velocity.x, vAxis * speed);
+                    rb2D.gravityScale = 0;
+                }
+            }
+        }
+        else
+        {
+            canClimb = false;
+            rb2D.gravityScale = 10;
+        }
     }
 }
