@@ -26,7 +26,6 @@ public class GemPlayerManager : MonoBehaviour
     private bool CanBite;
     public bool IsBite;
 
-    // Use this for initialization
     private void Start()
     {
         rb2D = GetComponent<Rigidbody2D>();
@@ -34,19 +33,23 @@ public class GemPlayerManager : MonoBehaviour
         this.sr = GetComponent<SpriteRenderer>();
     }
 
-    // Update is called once per frame
     private void Update()
     {
         if (control)
         {
-        // 矢印キーの入力情報を取得
-            h = Input.GetAxis("Horizontal");
-            v = Input.GetAxis("Vertical");
-            // 移動スピードの取得
+            GetHV();
             H();
-            rb2D.velocity = new Vector2(h * speed, v * speed);
+            BiteAction();
         }
-        BiteAction();
+    }
+
+    // 矢印キーの入力情報を取得
+    //横縦移動スピードの取得
+    private void GetHV()
+    {
+        h = Input.GetAxis("Horizontal");
+        v = Input.GetAxis("Vertical");
+        rb2D.velocity = new Vector2(h * speed, v * speed);
     }
 
     //横動き方向の取得

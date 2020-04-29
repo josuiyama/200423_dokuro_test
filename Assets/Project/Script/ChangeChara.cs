@@ -58,7 +58,7 @@ public class ChangeChara : MonoBehaviour
                 player.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeRotation;
                 //　現在操作しているキャラクターを動かなくする
                 gem.GetComponent<GemPlayerManager>().ChangeControl(false);
-                gem.GetComponent<Rigidbody2D>().gravityScale = 10;
+                gem.GetComponent<Rigidbody2D>().gravityScale = 5;
                 break;
             default:
                 Debug.Log("バグった");
