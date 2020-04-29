@@ -17,14 +17,14 @@ public class ChangeChara : MonoBehaviour
     [SerializeField]
     private GameObject gem;
 
-    void Start()
+    private void Start()
     {
         //　最初の操作キャラクターを0番目のキャラクターにする
         //charaList[0].GetComponent<PlayerManager>().ChangeControl(true);
         player.GetComponent<PlayerManager>().ChangeControl(true);
     }
 
-    void Update()
+    private void Update()
     {
         Debug.Log(nowChara);
 

@@ -24,12 +24,13 @@ public class GemPlayerManager : MonoBehaviour
 
     private bool control;
     private bool CanBite;
-    public bool IsBite;
+    private bool IsBite;
 
     // Use this for initialization
     private void Start()
     {
         rb2D = GetComponent<Rigidbody2D>();
+        CanBite = false;
         // スプライトレンダラーのコンポーネントを取得する
         this.sr = GetComponent<SpriteRenderer>();
     }
@@ -37,95 +38,104 @@ public class GemPlayerManager : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
+        // 矢印キーの入力情報を取得
+        if (control)
+        {
+            h = Input.GetAxis("Horizontal");
+            v = Input.GetAxis("Vertical");
+        }
+
+        // 移動スピードの取得
+        rb2D.velocity = new Vector2(h * speed, v * speed);
+
+        H();
+
+        BiteAction();
+
+        Debug.Log(CanBite + " CanBite");
+        Debug.Log(IsBite + " IsBite");
+    }
+
+    //横動き方向の取得
+    //横方向変更でイラスト反転
+    private void H()
+    {
+        if (h == 0)
+        {
+            //止まっている
+            direction = DIRECTION_TYPE.STOP;
+        }
+        else if (h > 0)
+        {
+            //右へ
+            direction = DIRECTION_TYPE.RIGHT;
+        }
+        else if (h < 0)
+        {
+            //左へ
+            direction = DIRECTION_TYPE.LEFT;
+        }
+
+        //噛み付いているときは反転できない
+        if (!IsBite)
+        {
+            switch (direction)
+            {
+                case DIRECTION_TYPE.STOP:
+                    break;
+                case DIRECTION_TYPE.RIGHT:
+                    //transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
+                    sr.flipX = false;
+                    break;
+                case DIRECTION_TYPE.LEFT:
+                    sr.flipX = true;
+                    //transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x) * -1, transform.localScale.y, transform.localScale.z);
+                    break;
+            }
+        }
+    }
+
+    //噛みつきアクション
+    private void BiteAction()
+    {
         //ドクロ操作のときじゃないと噛みつき＆噛みつき解除できないようにする
         if (changeChara.nowChara == 1)
         {
-            //IsBiteのときスペースで噛みつける
+            //IsBiteがファルスのとき発動
             if (!IsBite)
             {
+                //CanBiteのときスペースで噛みつける
+                //操作で噛みつけない時はかな入力になってないか気をつけろ！
+
                 if (Input.GetKeyDown("space") && CanBite)
                 {
-                    DoBite();
+                    //動く噛みつき場所とかぶらさがり場所に対して固定してたらまずいのでは？？
+                    //どうやって離れさせる？？？
+                    //噛み付いた部分とターゲットレイヤーのオブジェクトを起点にヒンジジョイントを追加するとか……
+
+                    rb2D.constraints = RigidbodyConstraints2D.FreezeAll;
+                    IsBite = true;
                     //噛み付いたときにミサ＝1にする
                     //changeChara.ChangeCharacter(1);
                 }
             }
-            //!IsBiteのときスペースで噛みつき離す
+
+            //IsBiteがファルスのときは発動しない
+            //IsBiteがトゥルーのとき発動する
             else
             {
+                //スペースで噛みつき離す
                 if (Input.GetKeyDown("space"))
                 {
-                    ReleaseBite();
+                    rb2D.constraints = RigidbodyConstraints2D.None;
+                    rb2D.constraints = RigidbodyConstraints2D.FreezeRotation;
+                    IsBite = false;
                 }
             }
         }
-        //噛み付いてる時に方向を変えないようにする
-        if (!IsBite)
-        {
-            // 矢印キーの入力情報を取得
-            if (control)
-            {
-                h = Input.GetAxis("Horizontal");
-                v = Input.GetAxis("Vertical");
-            }
-
-            if (h == 0)
-            {
-                //止まっている
-                direction = DIRECTION_TYPE.STOP;
-            }
-            else if (h > 0)
-            {
-                //右へ
-                direction = DIRECTION_TYPE.RIGHT;
-            }
-            else if (h < 0)
-            {
-                //左へ
-                direction = DIRECTION_TYPE.LEFT;
-            }
-
-            // 移動する向きを作成する
-            rb2D.velocity = new Vector2(h * speed, v * speed);
-        }
     }
 
-    private void FixedUpdate()
-    {
-        switch (direction)
-        {
-            case DIRECTION_TYPE.STOP:
-                break;
-            case DIRECTION_TYPE.RIGHT:
-                //transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
-                sr.flipX = false;
-                break;
-            case DIRECTION_TYPE.LEFT:
-                sr.flipX = true;
-                //transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x) * -1, transform.localScale.y, transform.localScale.z);
-                break;
-        }
-    }
-
-    //噛みつきをする
-    private void DoBite()
-    {
-        //動く噛みつき場所とかぶらさがり場所に対して固定してたらまずいのでは？？
-        //どうやって離れさせる？？？
-        //噛み付いた部分とターゲットレイヤーのオブジェクトを起点にヒンジジョイントを追加するとか……
-
-        rb2D.constraints = RigidbodyConstraints2D.FreezeAll;
-        IsBite = true;
-    }
-
-    //噛みつき解除
-    private void ReleaseBite()
-    {
-        rb2D.constraints = RigidbodyConstraints2D.None;
-        rb2D.constraints = RigidbodyConstraints2D.FreezeRotation;
-        IsBite = false;
-    }
-
+    //chande
     public void ChangeControl(bool controlFlag)
     {
         h = 0;

@@ -65,6 +65,7 @@ public class PlayerManager : MonoBehaviour
     }
 
     //横動き方向の取得
+    //横方向変更でイラスト反転
     private void HAxis()
     {
         if (hAxis == 0)
@@ -82,15 +83,7 @@ public class PlayerManager : MonoBehaviour
             //左へ
             direction = DIRECTION_TYPE.LEFT;
         }
-    }
 
-    //横方向変更でイラスト反転
-    private void FixedUpdate()
-    {
-        if (isDead)
-        {
-            return;
-        }
         switch (direction)
         {
             case DIRECTION_TYPE.STOP:
@@ -172,45 +165,47 @@ public class PlayerManager : MonoBehaviour
         RaycastHit2D hitInfoChain = Physics2D.Raycast(transform.position, Vector2.up, 2, chainLayer);
 
         //0個よりも多くのレイヤーに接触した時
-        if (hitInfoLadder.collider != null)
-        {
-            //プレイヤーが上下キーを押す（=上下に値を入れる）とcanClimbがtrueになる=登れるようになる
-            if (vAxis != 0)
-            {
-                canClimb = true;
-            }
+        //if (hitInfoLadder.collider != null)
+        //{
+        //    //    //プレイヤーが上下キーを押す（=上下に値を入れる）とcanClimbがtrueになる=登れるようになる
+        //    //    if (vAxis != 0)
+        //    //    {
+        //    //        canClimb = true;
+        //    //    }
 
-            //登るときのスピード設定と重力設定
-            if (canClimb)
-            {
-                rb2D.velocity = new Vector2(rb2D.velocity.x, vAxis * speed);
-            }
-            rb2D.gravityScale = 0;
-        }
-        if (hitInfoChain.collider != null)
-        {
-            if (gemPlayerManager.IsBite)
-            {
-                //プレイヤーが上下キーを押す（=上下に値を入れる）とcanClimbがtrueになる=登れるようになる
-                if (vAxis != 0)
-                {
-                    canClimb = true;
-                }
+        //    //    //登るときのスピード設定と重力設定
+        //    //    if (canClimb)
+        //    //    {
+        //    //        rb2D.velocity = new Vector2(rb2D.velocity.x, vAxis * speed);
+        //    //        rb2D.gravityScale = 0;
+        //    //    }
+        //    //}
+        //    if (hitInfoChain.collider != null)
+        //    {
+        //        if (gemPlayerManager.IsBite)
+        //        {
+        //            //プレイヤーが上下キーを押す（=上下に値を入れる）とcanClimbがtrueになる=登れるようになる
+        //            if (vAxis != 0)
+        //            {
+        //                canClimb = true;
+        //            }
 
-                //登るときのスピード設定と重力設定
-                if (canClimb)
-                {
-                    rb2D.velocity = new Vector2(rb2D.velocity.x,vAxis * speed);
-                }
-                rb2D.gravityScale = 0;
-            }
-        }
-        else
-        {
-            canClimb = false;
-            rb2D.gravityScale = 10;
-        }
+        //            //登るときのスピード設定と重力設定
+        //            if (canClimb)
+        //            {
+        //                rb2D.velocity = new Vector2(rb2D.velocity.x, vAxis * speed);
+        //                rb2D.gravityScale = 0;
+        //            }
+        //        }
+        //    }
+        //    else
+        //    {
+        //        canClimb = false;
+        //        rb2D.gravityScale = 10;
+        //    }
 
-        //一個目のときの判定が変に作用しているのでは？
+        //    //一個目のときの判定が変に作用しているのでは？
+        //    //なぜかドクロがか見つけなくなっている。privateとかを付け足したせい？
+        //}
     }
 }
