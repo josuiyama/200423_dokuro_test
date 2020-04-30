@@ -5,17 +5,15 @@ using System.Collections.Generic;
 public class ChangeChara : MonoBehaviour
 {
 
-    //　現在どのキャラクターを操作しているか
-    public int nowChara;
-    private int nextChara;
-
     //　操作可能なゲームキャラクター
-    //[SerializeField]
-    //private GameObject[] charaList = new GameObject[2];
     [SerializeField]
     private GameObject player;
     [SerializeField]
     private GameObject gem;
+
+    //　現在どのキャラクターを操作しているか
+    public int nowChara;
+    private int nextChara;
 
     private void Start()
     {
@@ -64,19 +62,6 @@ public class ChangeChara : MonoBehaviour
                 Debug.Log("バグった");
                 break;
         }
-
-        ////　現在操作しているキャラクターを動かなくする
-        //charaList[tempNowChara].GetComponent<PlayerManager>().ChangeControl(false);
-        ////　次のキャラクターの番号を設定
-        //var nextChara = tempNowChara + 1;
-        //if (nextChara >= charaList.Length)
-        //{
-        //    nextChara = 0;
-        //}
-        ////　次のキャラクターを動かせるようにする
-        //charaList[nextChara].GetComponent<PlayerManager>().ChangeControl(true);
-        ////　現在のキャラクター番号を保持する
-        //nowChara = nextChara;
         return nextChara;
     }
 

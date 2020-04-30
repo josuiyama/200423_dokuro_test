@@ -7,6 +7,9 @@ public class PlayerManager : MonoBehaviour
     [SerializeField]
     private GemPlayerManager gemPlayerManager;
 
+    [SerializeField]
+    private Vector3 m_moveDirection = Vector3.left;
+
     public enum DIRECTION_TYPE
     {
         STOP,
@@ -53,13 +56,11 @@ public class PlayerManager : MonoBehaviour
         {
             GetHorizontalVertical();
             HAxis();
-            CanClimb();
-            //CanCliff();
-            IsGround();
-            FindSlope();
+            //CanClimb();
+            //CanHighCliff();
+            //IsGround();
         }
-        //Debug.Log(canClimb + " canClimb");
-
+        Debug.Log(canClimb + " canClimb");
     }
 
     // 矢印キーの入力情報を取得
@@ -214,45 +215,59 @@ public class PlayerManager : MonoBehaviour
     }
 
     //壁の判定
-    //private void FindCliff()
-    //{
-
-    //    Vector3 upStartPoint = transform.position + Vector3.up * 1f;
-    //    Vector3 downStartPoint = transform.position + Vector3.down * 1f;
-    //    Vector3 clifEndPoint = transform.position + Vector3.left * 1f　* hAxis;
-    //    Debug.DrawLine(upStartPoint, clifLeftEndPoint);
-    //    Debug.DrawLine(downStartPoint, clifLeftEndPoint);
-    //    Debug.DrawLine(upStartPoint, clifEndPoint);
-    //    return Physics2D.Linecast(upStartPoint, clifEndPoint, blockLayer)
-    //        || Physics2D.Linecast(downStartPoint, clifEndPoint, blockLayer);
-
-    //}
-
-    //private void CanCliff()
-    //{
-    //    // 座標を取得
-    //    Vector3 pos = tf.position;
-    //    //1ドット分
-    //    pos.x += 1f;
-    //    pos.y += 1f;
-
-    //    tf.position = pos;  // 座標を設定
-    //}
-
-    //坂道の判定
-    private void FindSlope()
+    private void CanHighCliff()
     {
-        RaycastHit2D hitInfoSlopeBlockLeft = Physics2D.Raycast(transform.position + Vector3.up * 0.1f, Vector2.left, 0.5f, blockLayer);
-        RaycastHit2D hitInfoSlopeBlockRIght = Physics2D.Raycast(transform.position + Vector3.up * 0.1f, Vector2.right, 0.5f, blockLayer);
 
-        if (hitInfoSlopeBlockRIght.collider != null 
-            || hitInfoSlopeBlockRIght.collider != null)
+        RaycastHit2D hitInfoHighCliffLeft = Physics2D.Raycast(transform.position + Vector3.up * 1f, Vector2.left, 0.5f, blockLayer);
+        RaycastHit2D hitInfoHighCliffRIght = Physics2D.Raycast(transform.position + Vector3.up * 1f, Vector2.right, 0.5f, blockLayer);
+
+        if (hitInfoHighCliffLeft.collider != null
+            || hitInfoHighCliffRIght.collider != null)
         {
-            this.gameObject.transform.Translate(0.000001f, 0f, 0f);
+            this.gameObject.transform.Translate(0f, 1f, 0f);
+
         }
-
-        Debug.DrawRay(transform.position + Vector3.up * 0.1f, Vector2.left * 0.5f, Color.red);
-        Debug.DrawRay(transform.position + Vector3.up * 0.1f, Vector2.right * 0.5f, Color.red);
-
+        Debug.DrawRay(transform.position + Vector3.up * 1f, Vector2.left * 0.5f, Color.red);
+        Debug.DrawRay(transform.position + Vector3.up * 1f, Vector2.right * 0.5f, Color.red);
     }
+
+    ////坂道の判定
+    ///カプセルコライダーによってお役御免！！悲しい
+    //private void IsSlope()
+    //{
+    //    RaycastHit2D hitInfoSlopeBlockLeft = Physics2D.Raycast(transform.position + Vector3.up * 0.1f, Vector2.left, 0.5f, blockLayer);
+    //    RaycastHit2D hitInfoSlopeBlockRIght = Physics2D.Raycast(transform.position + Vector3.up * 0.1f, Vector2.right, 0.5f, blockLayer);
+
+    //    if (hitInfoSlopeBlockLeft.collider != null
+    //        || hitInfoSlopeBlockRIght.collider != null)
+    //    {
+
+    //        rb2D.gravityScale = 2;
+    //    }
+    //    else
+    //    {
+    //        rb2D.gravityScale = 5;
+    //    }
+    //    Debug.DrawRay(transform.position + Vector3.up * 0.1f, Vector2.left * 0.5f, Color.red);
+    //    Debug.DrawRay(transform.position + Vector3.up * 0.1f, Vector2.right * 0.5f, Color.red);
+
+    //}
+
+    //private void NonSlope()
+    //{
+    //    RaycastHit2D hitInfoNonSlopeBlockLeft = Physics2D.Raycast(transform.position + Vector3.left * 0.5f, Vector2.down, 0.01f, blockLayer);
+    //    RaycastHit2D hitInfoNonSlopeBlockRIght = Physics2D.Raycast(transform.position + Vector3.right * 0.5f, Vector2.down, 0.01f, blockLayer);
+
+    //    //if (hitInfoNonSlopeBlockLeft.collider != null
+    //    //    || hitInfoNonSlopeBlockRight.collider != null)
+    //    //{
+    //    //    this.gameObject.transform.Translate(0.000001f, 0f, 0f);
+    //    //    rb2D.gravityScale = 2;
+    //    //}
+
+    //    Debug.DrawRay(transform.position + Vector3.left * 0.2f, Vector2.down * 0.05f, Color.red);
+    //    Debug.DrawRay(transform.position + Vector3.right * 0.2f, Vector2.down * 0.05f, Color.red);
+
+    //}
+
 }

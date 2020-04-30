@@ -167,7 +167,13 @@ MonoBehaviour:
   blockLayer:
     serializedVersion: 2
     m_Bits: 0
+  gemPlayerManager: {fileID: 0}
+  m_moveDirection: {x: -1, y: 0, z: 0}
   speed: 3
-  getItemSE: {fileID: 0}
-  jumpSE: {fileID: 0}
-  stampSE: {fileID: 0}
+  distance: 0
+  ladderLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  chainLayer:
+    serializedVersion: 2
+    m_Bits: 0
