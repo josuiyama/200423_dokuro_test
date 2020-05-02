@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 2369490905459237701}
   - component: {fileID: 2369490905459237702}
   - component: {fileID: -3603049705712588342}
-  - component: {fileID: 6316409694958174308}
   - component: {fileID: 7194346960032262984}
+  - component: {fileID: -5580773695914706388}
   m_Layer: 14
   m_Name: SunnylandEnemy
   m_TagString: Untagged
@@ -76,7 +76,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: baa0c643131554ff99574059ec7da1cc, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 1
+  m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
   m_Size: {x: 0.36, y: 0.28}
@@ -125,22 +125,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!70 &6316409694958174308
-CapsuleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2369490905459237703}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 6200000, guid: 98e0027bf7f88d3469821322e52140df, type: 2}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: -0.00000001232176, y: 0.3966377}
-  m_Size: {x: 1.2857145, y: 0.7546}
-  m_Direction: 1
 --- !u!114 &7194346960032262984
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -153,8 +137,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3251ec91822826b45a75dc78779e3acf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  deathEffect: {fileID: 0}
   blockLayer:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 32768
+  deathEffect: {fileID: 0}
   enemySpeed: 3
+--- !u!70 &-5580773695914706388
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2369490905459237703}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.10336144, y: 0.45070443}
+  m_Size: {x: 1.0789932, y: 0.9014122}
+  m_Direction: 1

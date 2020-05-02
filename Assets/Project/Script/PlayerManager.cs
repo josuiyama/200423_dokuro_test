@@ -22,9 +22,9 @@ public class PlayerManager : MonoBehaviour
     DIRECTION_TYPE direction = DIRECTION_TYPE.STOP;
 
     // スプライトレンダラーコンポーネントを入れる
-    SpriteRenderer sr;
-    Rigidbody2D rb2D;
-    Transform tf;
+    private SpriteRenderer sr;
+    private Rigidbody2D rb2D;
+    private Transform tf;
 
     public float speed;
     private float hAxis;
@@ -58,7 +58,6 @@ public class PlayerManager : MonoBehaviour
             //IsGround();
             //IsSlope();
             //NormalizeSlope();
-
         }
     }
 
@@ -197,24 +196,24 @@ public class PlayerManager : MonoBehaviour
             }
         }
 
-        if (hitChain.collider != null)
-        {
-            //噛み付いてる最中に
-            if (gemPlayerManager.IsBite)
-            {
-                //プレイヤーが上下キーを押す（=上下に値を入れる）とcanClimbがtrueになる=登れるようになる
-                if (vAxis != 0)
-                {
-                    canClimb = true;
-                }
-                //登るときのスピード設定と重力設定
-                if (canClimb)
-                {
-                    rb2D.velocity = new Vector2(rb2D.velocity.x, vAxis * speed);
-                    rb2D.gravityScale = 0;
-                }
-            }
-        }
+        //if (hitChain.collider != null)
+        //{
+        //    //噛み付いてる最中に
+        //    if (gemPlayerManager.IsBite)
+        //    {
+        //        //プレイヤーが上下キーを押す（=上下に値を入れる）とcanClimbがtrueになる=登れるようになる
+        //        if (vAxis != 0)
+        //        {
+        //            canClimb = true;
+        //        }
+        //        //登るときのスピード設定と重力設定
+        //        if (canClimb)
+        //        {
+        //            rb2D.velocity = new Vector2(rb2D.velocity.x, vAxis * speed);
+        //            rb2D.gravityScale = 0;
+        //        }
+        //    }
+        //}
         else
         {
             canClimb = false;

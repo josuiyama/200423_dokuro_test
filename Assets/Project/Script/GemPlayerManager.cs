@@ -15,7 +15,7 @@ public class GemPlayerManager : MonoBehaviour
     DIRECTION_TYPE direction = DIRECTION_TYPE.STOP;
 
     // スプライトレンダラーコンポーネントを入れる
-    SpriteRenderer sr;
+    private SpriteRenderer sr;
     private Rigidbody2D rb2D;
 
     public float speed;    // 移動早さ
@@ -97,7 +97,7 @@ public class GemPlayerManager : MonoBehaviour
         //ドクロ操作のときじゃないと噛みつき＆噛みつき解除できないようにする
         if (changeChara.nowChara == 1)
         {
-            //IsBiteがファルスのとき発動
+            //IsBiteがフォルスのとき発動
             if (!IsBite)
             {
                 //CanBiteのときスペースで噛みつける
@@ -116,7 +116,7 @@ public class GemPlayerManager : MonoBehaviour
                 }
             }
 
-            //IsBiteがファルスのときは発動しない
+            //IsBiteがフォルスのときは発動しない
             //IsBiteがトゥルーのとき発動する
             else
             {
