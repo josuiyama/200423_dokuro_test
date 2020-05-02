@@ -2,9 +2,8 @@
 
 public class EnemyManager : MonoBehaviour
 {
-    [SerializeField] LayerMask blockLayer;
     [SerializeField] GameObject deathEffect;
-
+    [SerializeField] LayerMask blockLayer;
     public enum DIRECTION_TYPE
     {
         STOP,
@@ -12,63 +11,67 @@ public class EnemyManager : MonoBehaviour
         LEFT,
     }
 
-    DIRECTION_TYPE direction = DIRECTION_TYPE.STOP;
+    DIRECTION_TYPE enemyDirection = DIRECTION_TYPE.STOP;
 
-    Rigidbody2D rigidbody2D;
-    float speed;
+    private SpriteRenderer enemySr;
+    private Rigidbody2D enemyRb2D;
+
+    public float enemySpeed;
+    private float enemyHAxis;
 
     private void Start()
     {
-        rigidbody2D = GetComponent<Rigidbody2D>();
-        //右へ
-        direction = DIRECTION_TYPE.RIGHT;
+        enemyRb2D = GetComponent<Rigidbody2D>();
+        this.enemySr = GetComponent<SpriteRenderer>();
+
+        enemyDirection = DIRECTION_TYPE.RIGHT;
     }
 
     private void Update()
     {
-        if (!IsGround())
+        EnemyHAxis();
+
+        if (!EnemyIsGround())
         {
-            //方向を変える
-            ChangeDirection();
+            EnemyChangeDirection();
         }
+        Debug.Log(EnemyIsGround() + "EnemyIsGround");
     }
 
-    private void FixedUpdate()
+    private void EnemyHAxis()
     {
-        switch (direction)
+        switch (enemyDirection)
         {
             case DIRECTION_TYPE.STOP:
-                speed = 0;
                 break;
             case DIRECTION_TYPE.RIGHT:
-                speed = 3;
-                transform.localScale = new Vector3(1, 1, 1);
+                //enemySr.flipX = false;
                 break;
             case DIRECTION_TYPE.LEFT:
-                speed = -3;
-                transform.localScale = new Vector3(-1, 1, 1);
+                //enemySr.flipX = true;
                 break;
         }
-        rigidbody2D.velocity = new Vector2(speed, rigidbody2D.velocity.y);
-
+        enemyRb2D.velocity = new Vector2(enemySpeed, enemyRb2D.velocity.y);
     }
 
-    bool IsGround()
+    //接地判定
+    private bool EnemyIsGround()
     {
         Vector3 startVec = transform.position + transform.right * 0.5f * transform.localScale.x;
         Vector3 endVec = startVec - transform.up * 0.5f;
         Debug.DrawLine(startVec, endVec);
         return Physics2D.Linecast(startVec, endVec, blockLayer);
     }
-    void ChangeDirection()
+
+    private void EnemyChangeDirection()
     {
-        if (direction == DIRECTION_TYPE.RIGHT)
+        if (enemyDirection == DIRECTION_TYPE.RIGHT)
         {
-            direction = DIRECTION_TYPE.LEFT;
+            enemyDirection = DIRECTION_TYPE.LEFT;
         }
-        else if (direction == DIRECTION_TYPE.LEFT)
+        else if (enemyDirection == DIRECTION_TYPE.LEFT)
         {
-            direction = DIRECTION_TYPE.RIGHT;
+            enemyDirection = DIRECTION_TYPE.RIGHT;
         }
 
     }
