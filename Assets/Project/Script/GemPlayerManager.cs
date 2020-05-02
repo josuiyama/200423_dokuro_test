@@ -5,6 +5,8 @@ public class GemPlayerManager : MonoBehaviour
 {
     [SerializeField]
     private ChangeChara changeChara;
+    [SerializeField]
+    private EnemyManager enemyManager;
 
     public enum DIRECTION_TYPE
     {
@@ -24,7 +26,8 @@ public class GemPlayerManager : MonoBehaviour
 
     private bool control;
     private bool CanBite;
-    public bool IsBite;
+    private bool IsBite;
+    private bool biteAttack;
 
     private void Start()
     {
@@ -40,7 +43,10 @@ public class GemPlayerManager : MonoBehaviour
             GetHV();
             H();
             BiteAction();
+            BiteAttack();
         }
+
+        Debug.Log(" biteAttack" + biteAttack);
     }
 
     // 矢印キーの入力情報を取得
@@ -159,4 +165,24 @@ public class GemPlayerManager : MonoBehaviour
             CanBite = false;
         }
     }
+    //攻撃時の接触判定 satsugai!
+    private void OnCollisionEnter2D(Collision2D col)
+    {
+        if (biteAttack && col.gameObject.tag == "Enemy")
+        {
+            enemyManager.DestroyEnemy(col.gameObject);
+        }
+    }
+
+    private void BiteAttack()
+    {
+        if (changeChara.nowChara == 1 && Input.GetKeyDown("space"))
+        {
+            biteAttack = true;
+        }
+    }
+
+    //一定時間をすぎたらフォルスに戻したい。
+    //というか、攻撃した後引いた瞬間は操作不能にしたい。
+    //移動
 }

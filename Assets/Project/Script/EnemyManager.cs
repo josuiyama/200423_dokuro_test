@@ -78,10 +78,11 @@ public class EnemyManager : MonoBehaviour
         }
     }
     //死亡判定
-    public void DestroyEnemy()
+    public void DestroyEnemy(GameObject enemy)
     {
-        Instantiate(deathEffect, this.transform.position, this.transform.rotation);
-        Destroy(this.gameObject);
+        //オブジェクト作成
+        //Instantiate(deathEffect, this.transform.position, this.transform.rotation);
+        Destroy(enemy.gameObject);
     }
 
 }

@@ -6,7 +6,8 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] LayerMask blockLayer;
     [SerializeField]
     private GemPlayerManager gemPlayerManager;
-
+    [SerializeField]
+    private EnemyManager enemyManager;
     [SerializeField]
     private Vector3 m_moveDirection = Vector3.left;
 
@@ -300,6 +301,7 @@ public class PlayerManager : MonoBehaviour
         }
         Debug.DrawRay(transform.position, -Vector2.up * 1f, Color.red);
     }
+
 }
 
 

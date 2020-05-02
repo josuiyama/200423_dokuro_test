@@ -166,14 +166,17 @@ MonoBehaviour:
   gameManager: {fileID: 0}
   blockLayer:
     serializedVersion: 2
-    m_Bits: 0
-  gemPlayerManager: {fileID: 0}
+    m_Bits: 32768
+  gemPlayerManager: {fileID: 4744247433832814521, guid: d92d6efb9be815d4980b2cb11310f4df,
+    type: 3}
+  enemyManager: {fileID: 7194346960032262984, guid: cad25d4307ed7d9409279375d78ca185,
+    type: 3}
   m_moveDirection: {x: -1, y: 0, z: 0}
   speed: 3
   distance: 0
   ladderLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 4096
   chainLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 2048

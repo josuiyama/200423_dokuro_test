@@ -6,6 +6,7 @@ TagManager:
   tags:
   - DamageObject
   - Fire
+  - Enemy
   layers:
   - Default
   - TransparentFX
@@ -21,7 +22,7 @@ TagManager:
   - Chain
   - Ladder
   - Dokuro
-  - Enemy
+  - 
   - Ground
   - 
   - 
