@@ -68,6 +68,7 @@ public class PlayerManager : MonoBehaviour
     {
         hAxis = Input.GetAxis("Horizontal");
         vAxis = Input.GetAxis("Vertical");
+
         rb2D.velocity = new Vector2(hAxis * speed, rb2D.velocity.y);
     }
 

@@ -28,6 +28,8 @@ public class GemPlayerManager : MonoBehaviour
     private bool CanBite;
     private bool IsBite;
     private bool biteAttack;
+    private bool isDelay;
+    public int IntDelayCheck;
 
     private void Start()
     {
@@ -38,6 +40,8 @@ public class GemPlayerManager : MonoBehaviour
 
     private void Update()
     {
+        IntDelayCheck =((isDelay == true) ? 1:0);
+       
         if (control)
         {
             GetHV();
@@ -47,6 +51,7 @@ public class GemPlayerManager : MonoBehaviour
         }
 
         Debug.Log(" biteAttack" + biteAttack);
+        Debug.Log(" isDelay" + isDelay);
     }
 
     // 矢印キーの入力情報を取得
@@ -165,6 +170,42 @@ public class GemPlayerManager : MonoBehaviour
             CanBite = false;
         }
     }
+
+    private void BiteAttack()
+    {
+        if (changeChara.nowChara == 1 && Input.GetKeyDown("space"))
+        {
+            if (isDelay == false)
+            {
+                StartCoroutine(CheckAttack());
+                //Debug.Log(biteAttack + "biteAttack Delay 01");
+                //biteAttack = true;
+                //new WaitForSeconds(1f);
+                //biteAttack = false;
+                //Debug.Log(biteAttack + "biteAttack Delay 02");
+                //StartCoroutine(DelayStart(1f));
+            }
+        }
+    }
+
+    //一秒後に攻撃できるようにする
+    //コードが意味不明！
+    //Coroutineの中でCroutineを呼び出している
+    IEnumerator CheckAttack()
+    {
+        biteAttack = true;
+        yield return new WaitForSeconds(1f);
+        biteAttack = false;
+        StartCoroutine(DelayStart(1f));
+    }
+
+    IEnumerator DelayStart(float time)
+    {
+        isDelay = true;
+        yield return new WaitForSeconds(time);
+        isDelay = false;
+    }
+
     //攻撃時の接触判定 satsugai!
     private void OnCollisionEnter2D(Collision2D col)
     {
@@ -173,15 +214,6 @@ public class GemPlayerManager : MonoBehaviour
             enemyManager.DestroyEnemy(col.gameObject);
         }
     }
-
-    private void BiteAttack()
-    {
-        if (changeChara.nowChara == 1 && Input.GetKeyDown("space"))
-        {
-            biteAttack = true;
-        }
-    }
-
     //一定時間をすぎたらフォルスに戻したい。
     //というか、攻撃した後引いた瞬間は操作不能にしたい。
     //移動

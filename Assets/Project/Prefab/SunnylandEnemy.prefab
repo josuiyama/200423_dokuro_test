@@ -141,7 +141,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 32768
   deathEffect: {fileID: 0}
-  enemySpeed: 0
+  enemySpeed: 3
 --- !u!70 &-5580773695914706388
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

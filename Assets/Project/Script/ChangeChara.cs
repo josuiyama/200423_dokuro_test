@@ -24,7 +24,7 @@ public class ChangeChara : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log(nowChara);
+    //    Debug.Log(nowChara);
 
         //　Shiftキーが押されたら操作キャラクターを次のキャラクターに変更する
         if (Input.GetKeyDown("left shift"))
