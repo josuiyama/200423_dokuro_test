@@ -189,7 +189,6 @@ public class GemPlayerManager : MonoBehaviour
     }
 
     //一秒後に攻撃できるようにする
-    //コードが意味不明！
     //Coroutineの中でCroutineを呼び出している
     IEnumerator CheckAttack()
     {
