@@ -83,6 +83,7 @@ public class EnemyManager : MonoBehaviour
         //オブジェクト作成
         //Instantiate(deathEffect, this.transform.position, this.transform.rotation);
         Destroy(enemy.gameObject);
+        //死亡したあと飛ぶか爆発させたいんだが…
     }
 
 }

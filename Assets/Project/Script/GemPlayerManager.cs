@@ -27,7 +27,7 @@ public class GemPlayerManager : MonoBehaviour
     private bool control;
     private bool CanBite;
     private bool IsBite;
-    private bool biteAttack;
+    private bool biteAttack = false;
     private bool isDelay;
     public int IntDelayCheck;
 
@@ -40,8 +40,6 @@ public class GemPlayerManager : MonoBehaviour
 
     private void Update()
     {
-        IntDelayCheck =((isDelay == true) ? 1:0);
-       
         if (control)
         {
             GetHV();
@@ -51,7 +49,6 @@ public class GemPlayerManager : MonoBehaviour
         }
 
         Debug.Log(" biteAttack" + biteAttack);
-        Debug.Log(" isDelay" + isDelay);
     }
 
     // 矢印キーの入力情報を取得
@@ -175,14 +172,14 @@ public class GemPlayerManager : MonoBehaviour
     {
         if (changeChara.nowChara == 1 && Input.GetKeyDown("space"))
         {
-            if (isDelay == false)
+            if (biteAttack == false)
             {
                 StartCoroutine(CheckAttack());
                 //Debug.Log(biteAttack + "biteAttack Delay 01");
                 //biteAttack = true;
                 //new WaitForSeconds(1f);
                 //biteAttack = false;
-                //Debug.Log(biteAttack + "biteAttack Delay 02");
+                //Debug.LMog(biteAttack + "biteAttack Delay 02");
                 //StartCoroutine(DelayStart(1f));
             }
         }
@@ -195,14 +192,6 @@ public class GemPlayerManager : MonoBehaviour
         biteAttack = true;
         yield return new WaitForSeconds(1f);
         biteAttack = false;
-        StartCoroutine(DelayStart(1f));
-    }
-
-    IEnumerator DelayStart(float time)
-    {
-        isDelay = true;
-        yield return new WaitForSeconds(time);
-        isDelay = false;
     }
 
     //攻撃時の接触判定 satsugai!
