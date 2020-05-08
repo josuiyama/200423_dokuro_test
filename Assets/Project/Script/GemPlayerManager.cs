@@ -48,7 +48,7 @@ public class GemPlayerManager : MonoBehaviour
             BiteAttack();
         }
 
-        Debug.Log(" biteAttack" + biteAttack);
+        //Debug.Log(" biteAttack" + biteAttack);
     }
 
     // 矢印キーの入力情報を取得
@@ -174,20 +174,13 @@ public class GemPlayerManager : MonoBehaviour
         {
             if (biteAttack == false)
             {
-                StartCoroutine(CheckAttack());
-                //Debug.Log(biteAttack + "biteAttack Delay 01");
-                //biteAttack = true;
-                //new WaitForSeconds(1f);
-                //biteAttack = false;
-                //Debug.LMog(biteAttack + "biteAttack Delay 02");
-                //StartCoroutine(DelayStart(1f));
+                StartCoroutine(WaitAttack());
             }
         }
     }
 
     //一秒後に攻撃できるようにする
-    //Coroutineの中でCroutineを呼び出している
-    IEnumerator CheckAttack()
+    IEnumerator WaitAttack()
     {
         biteAttack = true;
         yield return new WaitForSeconds(1f);

@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections;
 
 public class PlayerManager : MonoBehaviour
 {
@@ -10,6 +11,8 @@ public class PlayerManager : MonoBehaviour
     private EnemyManager enemyManager;
     [SerializeField]
     private Vector3 m_moveDirection = Vector3.left;
+    [SerializeField]
+    private ChangeChara changeChara;
 
     public enum DIRECTION_TYPE
     {
@@ -55,7 +58,7 @@ public class PlayerManager : MonoBehaviour
             GetHorizontalVertical();
             HAxis();
             CanClimb();
-            //CanHighCliff();
+            CanCliff();
             //IsGround();
             //IsSlope();
             //NormalizeSlope();
@@ -180,7 +183,7 @@ public class PlayerManager : MonoBehaviour
         //chainレイヤーと接触した時登れる
         RaycastHit2D hitChain = Physics2D.Raycast(transform.position, Vector2.up, 2f, chainLayer);
 
-        Debug.DrawRay(transform.position, Vector2.up * 2f, Color.green);
+     //   Debug.DrawRay(transform.position, Vector2.up * 2f, Color.green);
 
         //0個よりも多くのレイヤーに接触した時
         if (hitLadder.collider != null)
@@ -223,29 +226,27 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
-    //壁の判定
-    private void CanHighCliff()
+    //階段と壁の判定と処理
+    private void CanCliff()
     {
-
-        RaycastHit2D hitInfoHighCliffLeft = Physics2D.Raycast(transform.position + Vector3.up * 1f, Vector2.left, 0.5f, blockLayer);
-        RaycastHit2D hitInfoHighCliffRIght = Physics2D.Raycast(transform.position + Vector3.up * 1f, Vector2.right, 0.5f, blockLayer);
-
-        if (hitInfoHighCliffLeft.collider != null
-            || hitInfoHighCliffRIght.collider != null)
+        //      RaycastHit2D hitInfoHighCliffLeft = Physics2D.Raycast(transform.position + Vector3.up * 0.1f, Vector2.left, 0.3f, blockLayer);
+        RaycastHit2D hitInfoHighCliffRIght = Physics2D.Raycast(transform.position + Vector3.up * 0.1f, Vector2.right, 0.2f*hAxis, blockLayer);
+        //        hitInfoHighCliffLeft.collider != null
+        //          ||
+        if (hitInfoHighCliffRIght.collider != null)
         {
-            this.gameObject.transform.Translate(0f, 1f, 0f);
-
+            this.gameObject.transform.Translate(0f, 0.3f, 0f);
         }
-        Debug.DrawRay(transform.position + Vector3.up * 1f, Vector2.left * 0.5f, Color.red);
-        Debug.DrawRay(transform.position + Vector3.up * 1f, Vector2.right * 0.5f, Color.red);
+        //        Debug.DrawRay(transform.position + Vector3.up * 0.1f, Vector2.left * 0.3f, Color.green);
+        Debug.DrawRay(transform.position + Vector3.up * 0.1f, Vector2.right * 0.2f * hAxis, Color.green);
     }
 
     ////坂道の判定
     //カプセルコライダーによってお役御免！！悲しい
     private void IsSlope()
     {
-        RaycastHit2D hitInfoSlopeBlockLeft = Physics2D.Raycast(transform.position + Vector3.up * 0.1f, Vector2.left, 0.5f, blockLayer);
-        RaycastHit2D hitInfoSlopeBlockRIght = Physics2D.Raycast(transform.position + Vector3.up * 0.1f, Vector2.right, 0.5f, blockLayer);
+        RaycastHit2D hitInfoSlopeBlockLeft = Physics2D.Raycast(transform.position + Vector3.up * 0.1f - Vector3.up * 0.1f, Vector2.left, 0.3f, blockLayer);
+        RaycastHit2D hitInfoSlopeBlockRIght = Physics2D.Raycast(transform.position + Vector3.up * 0.1f - Vector3.up * 0.1f, Vector2.right, 0.3f, blockLayer);
 
         if (hitInfoSlopeBlockLeft.collider != null
             || hitInfoSlopeBlockRIght.collider != null)
