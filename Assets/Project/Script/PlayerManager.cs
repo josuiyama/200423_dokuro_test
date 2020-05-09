@@ -37,6 +37,7 @@ public class PlayerManager : MonoBehaviour
     private bool control;
     private bool isDead = false;
     private bool canClimb = false;
+    private bool canStair;
     public float distance;
     public LayerMask ladderLayer;
     public LayerMask chainLayer;
@@ -58,7 +59,8 @@ public class PlayerManager : MonoBehaviour
             GetHorizontalVertical();
             HAxis();
             CanClimb();
-            CanCliff();
+            CanStair();
+            //CanWall();
             //IsGround();
             //IsSlope();
             //NormalizeSlope();
@@ -183,7 +185,7 @@ public class PlayerManager : MonoBehaviour
         //chainレイヤーと接触した時登れる
         RaycastHit2D hitChain = Physics2D.Raycast(transform.position, Vector2.up, 2f, chainLayer);
 
-     //   Debug.DrawRay(transform.position, Vector2.up * 2f, Color.green);
+        //   Debug.DrawRay(transform.position, Vector2.up * 2f, Color.green);
 
         //0個よりも多くのレイヤーに接触した時
         if (hitLadder.collider != null)
@@ -226,19 +228,55 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
-    //階段と壁の判定と処理
-    private void CanCliff()
+    //階段の判定と処理
+    private void CanStair()
     {
         //      RaycastHit2D hitInfoHighCliffLeft = Physics2D.Raycast(transform.position + Vector3.up * 0.1f, Vector2.left, 0.3f, blockLayer);
-        RaycastHit2D hitInfoHighCliffRIght = Physics2D.Raycast(transform.position + Vector3.up * 0.1f, Vector2.right, 0.2f*hAxis, blockLayer);
+        RaycastHit2D hitInfoCanCliff = Physics2D.Raycast(transform.position + Vector3.up * 0.1f, Vector2.right, 0.2f * hAxis, blockLayer);
         //        hitInfoHighCliffLeft.collider != null
         //          ||
-        if (hitInfoHighCliffRIght.collider != null)
+        RaycastHit2D hitInfoCanWall = Physics2D.Raycast(transform.position + Vector3.up * 1f, Vector2.right, 0.4f * hAxis, blockLayer);
+
+        if (hitInfoCanCliff.collider != null
+            && canStair == true)
         {
             this.gameObject.transform.Translate(0f, 0.3f, 0f);
         }
+        else if (hitInfoCanWall.collider != null)
+        {
+            canStair = false;
+        }
+        else
+        {
+            canStair = true;
+        }
         //        Debug.DrawRay(transform.position + Vector3.up * 0.1f, Vector2.left * 0.3f, Color.green);
         Debug.DrawRay(transform.position + Vector3.up * 0.1f, Vector2.right * 0.2f * hAxis, Color.green);
+        Debug.DrawRay(transform.position + Vector3.up * 1f, Vector2.right * 0.4f * hAxis, Color.green);
+        Debug.Log(canStair);
+
+    }
+    //壁の判定と処理
+    private void CanWall()
+    {
+        RaycastHit2D hitInfoCanWall = Physics2D.Raycast(transform.position + Vector3.up * 1f, Vector2.right, 0.2f * hAxis, blockLayer);
+
+        if (hitInfoCanWall.collider != null)
+        {
+            StartCoroutine(WaitWall());
+        }
+        //        Debug.DrawRay(transform.position + Vector3.up * 0.1f, Vector2.left * 0.3f, Color.green);
+        Debug.DrawRay(transform.position + Vector3.up * 1f, Vector2.right * 0.2f * hAxis, Color.green);
+    }
+
+    //壁登りを一秒待つ
+    IEnumerator WaitWall()
+    {
+        this.gameObject.transform.Translate(0f, 0.3f, 0f);
+
+        yield return new WaitForSeconds(1f);
+        this.gameObject.transform.Translate(0f, 0.3f, 0f);
+
     }
 
     ////坂道の判定
