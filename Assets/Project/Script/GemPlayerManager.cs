@@ -44,11 +44,17 @@ public class GemPlayerManager : MonoBehaviour
         {
             GetHV();
             H();
-            BiteAction();
-            BiteAttack();
         }
 
         //Debug.Log(" biteAttack" + biteAttack);
+    }
+    private void FixedUpdate()
+    {
+        if (control)
+        {
+            BiteAction();
+            BiteAttack();
+        }
     }
 
     // 矢印キーの入力情報を取得

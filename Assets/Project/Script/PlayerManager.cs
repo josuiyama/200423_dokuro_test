@@ -5,14 +5,11 @@ public class PlayerManager : MonoBehaviour
 {
     [SerializeField] GameManager gameManager;
     [SerializeField] LayerMask blockLayer;
-    [SerializeField]
-    private GemPlayerManager gemPlayerManager;
-    [SerializeField]
-    private EnemyManager enemyManager;
-    [SerializeField]
-    private Vector3 m_moveDirection = Vector3.left;
-    [SerializeField]
-    private ChangeChara changeChara;
+    [SerializeField] private GemPlayerManager gemPlayerManager;
+    [SerializeField] private EnemyManager enemyManager;
+    [SerializeField] private GameObject chainObject;
+    [SerializeField] private Vector3 m_moveDirection = Vector3.left;
+    [SerializeField] private ChangeChara changeChara;
 
     public enum DIRECTION_TYPE
     {
@@ -58,13 +55,21 @@ public class PlayerManager : MonoBehaviour
         {
             GetHorizontalVertical();
             HAxis();
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        if (control)
+        {
             CanClimb();
             CanStair();
             //CanWall();
-            //IsGround();
+            // IsGround();
             //IsSlope();
             //NormalizeSlope();
         }
+        Debug.Log(IsGround());
     }
 
     // 矢印キーの入力情報を取得
@@ -235,12 +240,13 @@ public class PlayerManager : MonoBehaviour
         RaycastHit2D hitInfoCanCliff = Physics2D.Raycast(transform.position + Vector3.up * 0.1f, Vector2.right, 0.2f * hAxis, blockLayer);
         //        hitInfoHighCliffLeft.collider != null
         //          ||
-        RaycastHit2D hitInfoCanWall = Physics2D.Raycast(transform.position + Vector3.up * 1f, Vector2.right, 0.4f * hAxis, blockLayer);
+        RaycastHit2D hitInfoCanWall = Physics2D.Raycast(transform.position + Vector3.up * 1f, Vector2.right, 0.3f * hAxis, blockLayer);
 
         if (hitInfoCanCliff.collider != null
             && canStair == true)
         {
-            this.gameObject.transform.Translate(0f, 0.3f, 0f);
+            this.gameObject.transform.Translate(0f, 0.1f, 0f);
+            chainObject.transform.Translate(0f, 0.1f, 0f);
         }
         else if (hitInfoCanWall.collider != null)
         {
@@ -252,8 +258,8 @@ public class PlayerManager : MonoBehaviour
         }
         //        Debug.DrawRay(transform.position + Vector3.up * 0.1f, Vector2.left * 0.3f, Color.green);
         Debug.DrawRay(transform.position + Vector3.up * 0.1f, Vector2.right * 0.2f * hAxis, Color.green);
-        Debug.DrawRay(transform.position + Vector3.up * 1f, Vector2.right * 0.4f * hAxis, Color.green);
-        Debug.Log(canStair);
+        Debug.DrawRay(transform.position + Vector3.up * 0.5f, Vector2.right * 0.3f * hAxis, Color.green);
+        //Debug.Log(canStair);
 
     }
     //壁の判定と処理
@@ -265,18 +271,17 @@ public class PlayerManager : MonoBehaviour
         {
             StartCoroutine(WaitWall());
         }
-        //        Debug.DrawRay(transform.position + Vector3.up * 0.1f, Vector2.left * 0.3f, Color.green);
         Debug.DrawRay(transform.position + Vector3.up * 1f, Vector2.right * 0.2f * hAxis, Color.green);
+        Debug.DrawRay(transform.position + Vector3.up * 0.5f, Vector2.right * 0.2f * hAxis, Color.green);
+
     }
 
     //壁登りを一秒待つ
     IEnumerator WaitWall()
     {
         this.gameObject.transform.Translate(0f, 0.3f, 0f);
-
         yield return new WaitForSeconds(1f);
         this.gameObject.transform.Translate(0f, 0.3f, 0f);
-
     }
 
     ////坂道の判定
