@@ -55,6 +55,8 @@ public class GemPlayerManager : MonoBehaviour
             BiteAction();
             BiteAttack();
         }
+        Debug.Log("IsBite "+ IsBite);
+        Debug.Log("CanBite " + CanBite);
     }
 
     // 矢印キーの入力情報を取得

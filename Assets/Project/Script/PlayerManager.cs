@@ -65,11 +65,10 @@ public class PlayerManager : MonoBehaviour
             CanClimb();
             CanStair();
             //CanWall();
-            // IsGround();
+            IsGround();
             //IsSlope();
             //NormalizeSlope();
         }
-        Debug.Log(IsGround());
     }
 
     // 矢印キーの入力情報を取得
@@ -122,7 +121,7 @@ public class PlayerManager : MonoBehaviour
         // 始点と終点を作成
         Vector3 leftStartPoint = transform.position + Vector3.left * 0.2f;
         Vector3 rightStartPoint = transform.position + Vector3.right * 0.2f;
-        Vector3 endPoint = transform.position - Vector3.up * 0.1f;
+        Vector3 endPoint = transform.position - Vector3.up * 0.5f;
         Debug.DrawLine(leftStartPoint, endPoint, Color.red);
         Debug.DrawLine(rightStartPoint, endPoint, Color.red);
         return Physics2D.Linecast(leftStartPoint, endPoint, blockLayer)
@@ -243,10 +242,11 @@ public class PlayerManager : MonoBehaviour
         RaycastHit2D hitInfoCanWall = Physics2D.Raycast(transform.position + Vector3.up * 1f, Vector2.right, 0.3f * hAxis, blockLayer);
 
         if (hitInfoCanCliff.collider != null
-            && canStair == true)
+            && canStair == true
+            && !IsGround())
         {
-            this.gameObject.transform.Translate(0f, 0.1f, 0f);
-            chainObject.transform.Translate(0f, 0.1f, 0f);
+            this.gameObject.transform.Translate(0f, 0.5f, 0f);
+            chainObject.transform.Translate(0f, 0.5f, 0f);
         }
         else if (hitInfoCanWall.collider != null)
         {
