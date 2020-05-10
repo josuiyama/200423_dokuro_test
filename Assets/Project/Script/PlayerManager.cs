@@ -60,10 +60,11 @@ public class PlayerManager : MonoBehaviour
 
     private void FixedUpdate()
     {
+
         if (control)
         {
             CanClimb();
-            CanStair();
+            //CanStair();
             //CanWall();
             IsGround();
             //IsSlope();
@@ -116,16 +117,18 @@ public class PlayerManager : MonoBehaviour
 
     //接地判定
     //これなんでVector2じゃなくて3なんだろ？
-    private bool IsGround()
+    //なぜちょっと浮かさないとtrueを返してくれない？
+    public bool IsGround()
     {
         // 始点と終点を作成
-        Vector3 leftStartPoint = transform.position + Vector3.left * 0.2f;
-        Vector3 rightStartPoint = transform.position + Vector3.right * 0.2f;
+        Vector3 leftStartPoint = transform.position + Vector3.left * 0.1f + Vector3.up * 0.1f;
+        Vector3 rightStartPoint = transform.position + Vector3.right * 0.1f + Vector3.up * 0.1f;
         Vector3 endPoint = transform.position - Vector3.up * 0.5f;
         Debug.DrawLine(leftStartPoint, endPoint, Color.red);
         Debug.DrawLine(rightStartPoint, endPoint, Color.red);
         return Physics2D.Linecast(leftStartPoint, endPoint, blockLayer)
-            || Physics2D.Linecast(rightStartPoint, endPoint, blockLayer);
+            || Physics2D.Linecast(rightStartPoint, endPoint, blockLayer)
+        ;
     }
 
     //クリア・ゲームオーバー判定
@@ -231,7 +234,6 @@ public class PlayerManager : MonoBehaviour
             rb2D.gravityScale = 5;
         }
     }
-
     //階段の判定と処理
     private void CanStair()
     {
@@ -239,14 +241,14 @@ public class PlayerManager : MonoBehaviour
         RaycastHit2D hitInfoCanCliff = Physics2D.Raycast(transform.position + Vector3.up * 0.1f, Vector2.right, 0.2f * hAxis, blockLayer);
         //        hitInfoHighCliffLeft.collider != null
         //          ||
-        RaycastHit2D hitInfoCanWall = Physics2D.Raycast(transform.position + Vector3.up * 1f, Vector2.right, 0.3f * hAxis, blockLayer);
+        RaycastHit2D hitInfoCanWall = Physics2D.Raycast(transform.position + Vector3.up * 0.5f, Vector2.right, 0.3f * hAxis, blockLayer);
 
         if (hitInfoCanCliff.collider != null
-            && canStair == true
-            && !IsGround())
+            && canStair == true)
         {
+            //   StartCoroutine(WaitWall());
             this.gameObject.transform.Translate(0f, 0.5f, 0f);
-            chainObject.transform.Translate(0f, 0.5f, 0f);
+               chainObject.transform.Translate(0f, 0.5f, 0f);
         }
         else if (hitInfoCanWall.collider != null)
         {
@@ -279,13 +281,14 @@ public class PlayerManager : MonoBehaviour
     //壁登りを一秒待つ
     IEnumerator WaitWall()
     {
+        yield return new WaitForSeconds(0.01f);
         this.gameObject.transform.Translate(0f, 0.3f, 0f);
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.01f);
         this.gameObject.transform.Translate(0f, 0.3f, 0f);
     }
 
     ////坂道の判定
-    //カプセルコライダーによってお役御免！！悲しい
+    //カプセルコライダーによってお役御免！！悲しい！
     private void IsSlope()
     {
         RaycastHit2D hitInfoSlopeBlockLeft = Physics2D.Raycast(transform.position + Vector3.up * 0.1f - Vector3.up * 0.1f, Vector2.left, 0.3f, blockLayer);
@@ -346,6 +349,11 @@ public class PlayerManager : MonoBehaviour
         }
         Debug.DrawRay(transform.position, -Vector2.up * 1f, Color.red);
     }
+
+    //補完移動のときのやつ勉強用
+    //Mathf.Lerp(開始地点,到達地点,そこにたどり着く時間)
+    // gameObject.transform.position = new Vector3(gameObject.transform.position.x, Mathf.Lerp(gameObject.transform.position.y, gameObject.transform.position.y + 0.5f, t), gameObject.transform.position.z);
+    //transform.position = Vector3.Lerp(startMarker.position, endMarker.position, fracJourney);
 
 }
 

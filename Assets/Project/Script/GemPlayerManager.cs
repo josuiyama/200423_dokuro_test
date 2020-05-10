@@ -50,13 +50,13 @@ public class GemPlayerManager : MonoBehaviour
     }
     private void FixedUpdate()
     {
+        BiteAction();
         if (control)
         {
-            BiteAction();
             BiteAttack();
         }
-        Debug.Log("IsBite "+ IsBite);
-        Debug.Log("CanBite " + CanBite);
+        //Debug.Log("IsBite "+ IsBite);
+        //Debug.Log("CanBite " + CanBite);
     }
 
     // 矢印キーの入力情報を取得
@@ -111,40 +111,40 @@ public class GemPlayerManager : MonoBehaviour
     private void BiteAction()
     {
         //ドクロ操作のときじゃないと噛みつき＆噛みつき解除できないようにする
-        if (changeChara.nowChara == 1)
+        // if (changeChara.nowChara == 1)
+        //{
+        //IsBiteがフォルスのとき発動
+        if (!IsBite)
         {
-            //IsBiteがフォルスのとき発動
-            if (!IsBite)
+            //CanBiteのときスペースで噛みつける
+            //操作で噛みつけない時はかな入力になってないか気をつけろ！
+
+            if (Input.GetKeyDown("space") && CanBite)
             {
-                //CanBiteのときスペースで噛みつける
-                //操作で噛みつけない時はかな入力になってないか気をつけろ！
+                //動く噛みつき場所とかぶらさがり場所に対して固定してたらまずいのでは？？
+                //どうやって離れさせる？？？
+                //噛み付いた部分とターゲットレイヤーのオブジェクトを起点にヒンジジョイントを追加するとか……
 
-                if (Input.GetKeyDown("space") && CanBite)
-                {
-                    //動く噛みつき場所とかぶらさがり場所に対して固定してたらまずいのでは？？
-                    //どうやって離れさせる？？？
-                    //噛み付いた部分とターゲットレイヤーのオブジェクトを起点にヒンジジョイントを追加するとか……
-
-                    rb2D.constraints = RigidbodyConstraints2D.FreezeAll;
-                    IsBite = true;
-                    //噛み付いたときにミサ＝1にする
-                    //changeChara.ChangeCharacter(1);
-                }
-            }
-
-            //IsBiteがフォルスのときは発動しない
-            //IsBiteがトゥルーのとき発動する
-            else
-            {
-                //スペースで噛みつき離す
-                if (Input.GetKeyDown("space"))
-                {
-                    rb2D.constraints = RigidbodyConstraints2D.None;
-                    rb2D.constraints = RigidbodyConstraints2D.FreezeRotation;
-                    IsBite = false;
-                }
+                rb2D.constraints = RigidbodyConstraints2D.FreezeAll;
+                IsBite = true;
+                //噛み付いたときにミサ＝1にする
+                //changeChara.ChangeCharacter(1);
             }
         }
+
+        //IsBiteがフォルスのときは発動しない
+        //IsBiteがトゥルーのとき発動する
+        else
+        {
+            //スペースで噛みつき離す
+            if (Input.GetKeyDown("space"))
+            {
+                rb2D.constraints = RigidbodyConstraints2D.None;
+                rb2D.constraints = RigidbodyConstraints2D.FreezeRotation;
+                IsBite = false;
+            }
+        }
+        //  }
     }
 
     //ChangeControlが有効になった時

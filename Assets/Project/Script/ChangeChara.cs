@@ -8,6 +8,7 @@ public class ChangeChara : MonoBehaviour
     //　操作可能なゲームキャラクター
     [SerializeField]
     private GameObject player;
+    [SerializeField] private PlayerManager playerManager;
     [SerializeField]
     private GameObject gem;
 
@@ -24,12 +25,10 @@ public class ChangeChara : MonoBehaviour
 
     private void Update()
     {
-    //    Debug.Log(nowChara);
-
-        //　Shiftキーが押されたら操作キャラクターを次のキャラクターに変更する
-        if (Input.GetKeyDown("left shift"))
-        {
-            nowChara = ChangeCharacter(nowChara);
+            //　Shiftキーが押されたら操作キャラクターを次のキャラクターに変更する
+            if (Input.GetKeyDown("left shift"))
+            {
+                nowChara = ChangeCharacter(nowChara);
         }
     }
 
@@ -43,10 +42,18 @@ public class ChangeChara : MonoBehaviour
                 nextChara = 1;
                 //　現在操作しているキャラクターを動かなくする
                 player.GetComponent<PlayerManager>().ChangeControl(false);
-                player.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
+                //ドクロ操作のときは空気抵抗と質量が重くなる
+                player.GetComponent<Rigidbody2D>().drag = 200;
+                player.GetComponent<Rigidbody2D>().mass = 100;
                 //　次のキャラクターを動かせるようにする
                 gem.GetComponent<GemPlayerManager>().ChangeControl(true);
                 gem.GetComponent<Rigidbody2D>().gravityScale = 0;
+                //ミサが地面から離れている時は空気抵抗と質量がもとに戻る
+                if (playerManager.IsGround() == false)
+                {
+                    player.GetComponent<Rigidbody2D>().drag = 0;
+                    player.GetComponent<Rigidbody2D>().mass = 10;
+                }
                 break;
             case 1:
                 nextChara = 0;
@@ -54,6 +61,8 @@ public class ChangeChara : MonoBehaviour
                 player.GetComponent<PlayerManager>().ChangeControl(true);
                 player.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.None;
                 player.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeRotation;
+                player.GetComponent<Rigidbody2D>().drag = 0;
+                player.GetComponent<Rigidbody2D>().mass = 10;
                 //　現在操作しているキャラクターを動かなくする
                 gem.GetComponent<GemPlayerManager>().ChangeControl(false);
                 gem.GetComponent<Rigidbody2D>().gravityScale = 5;
